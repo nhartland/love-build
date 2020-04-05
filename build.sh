@@ -17,7 +17,11 @@ zip -r "./${APP_NAME}.love" ${GITHUB_WORKSPACE}/* -x '*.git*'
 wget "https://bitbucket.org/rude/love/downloads/love-${LOVE_VERSION}-macos.zip"
 unzip "love-${LOVE_VERSION}-macos.zip" && rm "love-${LOVE_VERSION}-macos.zip"
 # Copy Data
-cp "${APP_NAME}.love" love.app/Contents/Resources/ && cp Info.plist love.app/Contents/
+cp "${APP_NAME}.love" love.app/Contents/Resources/ 
+# If a plist file is provided, use that
+if [ -f "${GITHUB_WORKSPACE}/Info.plist" ]; then
+    cp "${GITHUB_WORKSPACE}/Info.plist" love.app/Contents/
+fi
 mv love.app "${APP_NAME}.app"
 # Setup final archives
 zip -ry "${APP_NAME}_macos.zip" "${APP_NAME}.app" && rm -rf "${APP_NAME}.app"
