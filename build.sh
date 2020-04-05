@@ -1,53 +1,69 @@
-#!/bin/sh
-set -e # Exit whenever a single command fails
+#!/bin/bash
+set -e
 
-# Get parameters from environment
-APP_NAME=${INPUT_APPLICATIONNAME:-"love-build-app"}
-LOVE_VERSION=${INPUT_LOVEVERSION:-"11.3"}
+# Check for application name
+if [ -z "$INPUT_APPLICATIONNAME" ]; then
+    echo "\$INPUT_APPLICATIONNAME is unspecified"
+    exit 1
+fi
+
+# Check for love version
+if [ -z "$INPUT_LOVEVERSION" ]; then
+    echo "\$INPUT_LOVEVERSION is unspecified"
+    exit 1
+fi
+
+# Shorten variables a little
+AN=${INPUT_APPLICATIONNAME}
+LV=${INPUT_LOVEVERSION}
 
 # Change CWD to the Github Workspace
 cd "${GITHUB_WORKSPACE}"
 
-# If a conf.lua exists in the workspace, build dependencies with loverocks
-if [ -f "conf.lua" ]; then
+### Dependencies #################################################
+
+# If the usingLoveRocks flag is set to true, build loverocks deps
+if [ "${INPUT_USINGLOVEROCKS}" == "true" ]; then
     loverocks deps
 fi
 
-# Generate love file
-# TODO: Have as input a working directory selector
-zip -r "${APP_NAME}.love" ./* -x '*.git*'
-echo "::set-output name=love-filename::${APP_NAME}.love"
+### LOVE build ####################################################
 
-### macos
+# TODO: Have as input a working directory selector
+zip -r "${AN}.love" ./* -x '*.git*'
+echo "::set-output name=love-filename::${AN}.love"
+
+### macos build ###################################################
+
 # Download love for macos
-wget "https://bitbucket.org/rude/love/downloads/love-${LOVE_VERSION}-macos.zip"
-unzip "love-${LOVE_VERSION}-macos.zip" && rm "love-${LOVE_VERSION}-macos.zip"
+wget "https://bitbucket.org/rude/love/downloads/love-${LV}-macos.zip"
+unzip "love-${LV}-macos.zip" && rm "love-${LV}-macos.zip"
 # Copy Data
-cp "${APP_NAME}.love" love.app/Contents/Resources/ 
+cp "${AN}.love" love.app/Contents/Resources/ 
 # If a plist file is provided, use that
 if [ -f "Info.plist" ]; then
     cp "Info.plist" love.app/Contents/
 fi
-mv love.app "${APP_NAME}.app"
+mv love.app "${AN}.app"
 # Setup final archives
-zip -ry "${APP_NAME}_macos.zip" "${APP_NAME}.app" && rm -rf "${APP_NAME}.app"
+zip -ry "${AN}_macos.zip" "${AN}.app" && rm -rf "${AN}.app"
 # Export filename
-echo "::set-output name=macos-filename::${APP_NAME}_macos.zip"
+echo "::set-output name=macos-filename::${AN}_macos.zip"
 
+### win32 build ###################################################
 
-### Windows
 # Download love for windows
-wget "https://bitbucket.org/rude/love/downloads/love-${LOVE_VERSION}-win32.zip"
-unzip -j "love-${LOVE_VERSION}-win32.zip" -d "${APP_NAME}_win32" && rm "love-${LOVE_VERSION}-win32.zip" 
+wget "https://bitbucket.org/rude/love/downloads/love-${LV}-win32.zip"
+unzip -j "love-${LV}-win32.zip" -d "${AN}_win32" && rm "love-${LV}-win32.zip" 
 # Copy data
-cat "${APP_NAME}_win32/love.exe" "${APP_NAME}.love" > "${APP_NAME}_win32/${APP_NAME}.exe"
+cat "${AN}_win32/love.exe" "${AN}.love" > "${AN}_win32/${AN}.exe"
 # Delete unneeded files
-rm "${APP_NAME}_win32/love.exe"
-rm "${APP_NAME}_win32/lovec.exe"
-rm "${APP_NAME}_win32/love.ico"
-rm "${APP_NAME}_win32/changes.txt"
-rm "${APP_NAME}_win32/readme.txt"
+rm "${AN}_win32/love.exe"
+rm "${AN}_win32/lovec.exe"
+rm "${AN}_win32/love.ico"
+rm "${AN}_win32/changes.txt"
+rm "${AN}_win32/readme.txt"
 # Setup final archive
-zip -ry "${APP_NAME}_win32.zip" "${APP_NAME}_win32" && rm -rf "${APP_NAME}_win32"
+zip -ry "${AN}_win32.zip" "${AN}_win32" && rm -rf "${AN}_win32"
 # Export filename
-echo "::set-output name=win32-filename::${APP_NAME}_win32.zip"
+echo "::set-output name=win32-filename::${AN}_win32.zip"
