@@ -1,6 +1,6 @@
 # action.yml
 name: 'LÖVE Build'
-description: 'Action for building a LÖVE project distributables (Win32/Mac/love)'
+description: 'Action for building LÖVE project distributables (Win32/Mac/love)'
 inputs:
   applicationName:
     description: 'Name of the application to be built'
