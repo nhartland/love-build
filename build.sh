@@ -8,14 +8,14 @@ if [ -z "${INPUT_APP-NAME}" ]; then
 fi
 
 # Check for love version
-if [ -z "$INPUT_LOVE_VERSION" ]; then
+if [ -z "${INPUT_LOVE-VERSION}" ]; then
     echo "LOVE version is unspecified"
     exit 1
 fi
 
 # Shorten variables a little
-AN=${INPUT_APP_NAME}
-LV=${INPUT_LOVE_VERSION}
+AN=${INPUT_APP-NAME}
+LV=${INPUT_LOVE-VERSION}
 
 # Change CWD to the Github Workspace
 cd "${GITHUB_WORKSPACE}"
@@ -23,7 +23,7 @@ cd "${GITHUB_WORKSPACE}"
 ### Dependencies #################################################
 
 # If the usingLoveRocks flag is set to true, build loverocks deps
-if [ "${INPUT_ENABLE_LOVEROCKS}" = true ]; then
+if [ "${INPUT_ENABLE-LOVEROCKS}" = true ]; then
     loverocks deps
 fi
 
