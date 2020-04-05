@@ -1,15 +1,15 @@
 #!/bin/sh
 set -e # Exit whenever a single command fails
 
-# TODO: Build the love2d package with loverocks
-# loverocks deps
-
 # Get parameters from environment
 APP_NAME=${INPUT_APPLICATIONNAME:-"love-build-app"}
 LOVE_VERSION=${INPUT_LOVEVERSION:-"11.3"}
 
 # Change CWD to the Github Workspace
 cd "${GITHUB_WORKSPACE}"
+
+# Build the love2d package with loverocks
+loverocks deps
 
 # Generate love file
 # TODO: Have as input a working directory selector
