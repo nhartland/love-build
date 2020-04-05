@@ -10,6 +10,13 @@ inputs:
     description: 'Version of LÖVE to be used in building the application'
     required: true
     default: '11.3'
+outputs:
+  love-filename: 
+    description: 'Filename of built love file'
+  win32-filename: 
+    description: 'Filename of built win32 application'
+  macos-filename: 
+    description: 'Filename of built macos application'
 runs:
   using: 'docker'
   image: 'Dockerfile'
