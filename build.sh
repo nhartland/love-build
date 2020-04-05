@@ -11,7 +11,7 @@ LOVE_VERSION=${INPUT_LOVEVERSION:-"11.3"}
 
 # Generate love file
 # TODO: Have as input a working directory selector
-zip -r "./${APP_NAME}.love" "${GITHUB_WORKSPACE}"
+zip -r "./${APP_NAME}.love" "${GITHUB_WORKSPACE}/*"
 
 ### macos
 # Download love for macos
