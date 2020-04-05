@@ -8,8 +8,10 @@ LOVE_VERSION=${INPUT_LOVEVERSION:-"11.3"}
 # Change CWD to the Github Workspace
 cd "${GITHUB_WORKSPACE}"
 
-# Build the love2d package with loverocks
-loverocks deps
+# If a conf.lua exists in the workspace, build dependencies with loverocks
+if [ -f "conf.lua" ]; then
+    loverocks deps
+fi
 
 # Generate love file
 # TODO: Have as input a working directory selector
