@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/bin/sh
 set -e
 
 # Check for application name
@@ -23,7 +23,7 @@ cd "${GITHUB_WORKSPACE}"
 ### Dependencies #################################################
 
 # If the usingLoveRocks flag is set to true, build loverocks deps
-if [ "${INPUT_USINGLOVEROCKS}" == "true" ]; then
+if [ "${INPUT_USINGLOVEROCKS}" = true ]; then
     loverocks deps
 fi
 
