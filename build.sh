@@ -1,12 +1,16 @@
 #!/bin/sh
 set -e # Exit whenever a single command fails
 
+# TODO: Have as input a working directory selector
+cd "${"$GITHUB_WORKSPACE":-.}"
+
 # TODO: Build the love2d package with loverocks
 # loverocks deps
 
 # Get parameters from environment
-APP_NAME=${INPUT_APP_NAME:-"love-build-app"}
-LOVE_VERSION=${INPUT_LOVE_VESION:-"11.3"}
+APP_NAME=${INPUT_APPLICATIONNAME:-"love-build-app"}
+LOVE_VERSION=${INPUT_LOVEVERSION:-"11.3"}
+
 
 # Generate love file
 zip -r "./${APP_NAME}.love" ./*

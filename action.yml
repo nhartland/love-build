@@ -10,11 +10,6 @@ inputs:
     description: 'Version of LÖVE to be used in building the application'
     required: true
     default: '11.3'
-    #outputs:
-    #  time: # id of output
-    #    description: 'The time we greeted you'
 runs:
   using: 'docker'
   image: 'Dockerfile'
-  #  args:
-  #    - ${{ inputs.who-to-greet }}
