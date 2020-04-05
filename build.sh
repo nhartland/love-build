@@ -13,12 +13,18 @@ if [ -z "${INPUT_LOVE_VERSION}" ]; then
     exit 1
 fi
 
+# Check for love version
+if [ -z "${INPUT_SOURCE_DIR}" ]; then
+    echo "Source directory is unspecified"
+    exit 1
+fi
+
 # Shorten variables a little
 AN=${INPUT_APP_NAME}
 LV=${INPUT_LOVE_VERSION}
 
-# Change CWD to the Github Workspace
-cd "${GITHUB_WORKSPACE}"
+# Change CWD to the source directory
+cd "${INPUT_SOURCE_DIR}"
 
 ### Dependencies #################################################
 
@@ -29,7 +35,7 @@ fi
 
 ### LOVE build ####################################################
 
-# TODO: Have as input a working directory selector
+# TODO: Have a build directory
 zip -r "${AN}.love" ./* -x '*.git*'
 echo "::set-output name=love-filename::${AN}.love"
 

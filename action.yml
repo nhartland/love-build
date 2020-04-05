@@ -16,8 +16,10 @@ inputs:
     default: '11.3'
   enable_loverocks:
     description: 'Flag activating loverocks support'
-    required: false
     default: false
+  source_dir:
+    description: 'Directory containing `main.lua`. By default the GA workspace (root of cloned repository).'
+    default: ${{ github.workspace }}
 outputs:
   love-filename: 
     description: 'Filename of built love file'
