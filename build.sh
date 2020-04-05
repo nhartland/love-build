@@ -2,7 +2,7 @@
 set -e # Exit whenever a single command fails
 
 # TODO: Have as input a working directory selector
-cd "${"$GITHUB_WORKSPACE":-.}"
+cd "${$GITHUB_WORKSPACE:-.}"
 
 # TODO: Build the love2d package with loverocks
 # loverocks deps
