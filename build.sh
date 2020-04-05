@@ -8,10 +8,12 @@ set -e # Exit whenever a single command fails
 APP_NAME=${INPUT_APPLICATIONNAME:-"love-build-app"}
 LOVE_VERSION=${INPUT_LOVEVERSION:-"11.3"}
 
+# Change CWD to the Github Workspace
+cd "${GITHUB_WORKSPACE}"
+
 # Generate love file
 # TODO: Have as input a working directory selector
-zip -r "${APP_NAME}.love" ${GITHUB_WORKSPACE}/* -x '*.git*'
-# Export filename
+zip -r "${APP_NAME}.love" ./* -x '*.git*'
 echo "::set-output name=love-filename::${APP_NAME}.love"
 
 ### macos
@@ -21,8 +23,8 @@ unzip "love-${LOVE_VERSION}-macos.zip" && rm "love-${LOVE_VERSION}-macos.zip"
 # Copy Data
 cp "${APP_NAME}.love" love.app/Contents/Resources/ 
 # If a plist file is provided, use that
-if [ -f "${GITHUB_WORKSPACE}/Info.plist" ]; then
-    cp "${GITHUB_WORKSPACE}/Info.plist" love.app/Contents/
+if [ -f "Info.plist" ]; then
+    cp "Info.plist" love.app/Contents/
 fi
 mv love.app "${APP_NAME}.app"
 # Setup final archives
