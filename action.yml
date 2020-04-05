@@ -1,0 +1,20 @@
+# action.yml
+name: 'LÖVE Build'
+description: 'Action for building a LÖVE project distributables (Win32/Mac/love)'
+inputs:
+  applicationName:
+    description: 'Name of the application to be built'
+    required: true
+    default: 'love-build-app'
+  loveVersion:
+    description: 'Version of LÖVE to be used in building the application'
+    required: true
+    default: '11.3'
+    #outputs:
+    #  time: # id of output
+    #    description: 'The time we greeted you'
+runs:
+  using: 'docker'
+  image: 'Dockerfile'
+  #  args:
+  #    - ${{ inputs.who-to-greet }}

@@ -1,10 +1,12 @@
 #!/bin/sh
+set -e # Exit whenever a single command fails
+
 # TODO: Build the love2d package with loverocks
 # loverocks deps
 
-# Default values
-APP_NAME=${APP_NAME:-"love-build-app"}
-LOVE_VERSION=${LOVE_VESION:-"11.3"}
+# Get parameters from environment
+APP_NAME=${INPUT_APP_NAME:-"love-build-app"}
+LOVE_VERSION=${INPUT_LOVE_VESION:-"11.3"}
 
 # Generate love file
 zip -r "./${APP_NAME}.love" ./*
