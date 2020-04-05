@@ -8,11 +8,9 @@ set -e # Exit whenever a single command fails
 APP_NAME=${INPUT_APPLICATIONNAME:-"love-build-app"}
 LOVE_VERSION=${INPUT_LOVEVERSION:-"11.3"}
 
-ls "$GITHUB_WORKSPACE}/*"
-
 # Generate love file
 # TODO: Have as input a working directory selector
-zip -r "./${APP_NAME}.love" "${GITHUB_WORKSPACE}/*"
+zip -r "./${APP_NAME}.love" ${GITHUB_WORKSPACE}/* -x '*.git*'
 
 ### macos
 # Download love for macos
