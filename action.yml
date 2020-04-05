@@ -6,15 +6,15 @@ branding:
   icon: 'heart'
   color: 'blue'
 inputs:
-  app-name:
+  app_name:
     description: 'Name of the application to be built'
     required: true
     default: 'love-build-app'
-  love-version:
+  love_version:
     description: 'Version of LÖVE to be used in building the application'
     required: true
     default: '11.3'
-  enable-loverocks:
+  enable_loverocks:
     description: 'Flag activating loverocks support'
     required: false
     default: false
