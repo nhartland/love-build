@@ -8,11 +8,14 @@ set -e # Exit whenever a single command fails
 APP_NAME=${INPUT_APPLICATIONNAME:-"love-build-app"}
 LOVE_VERSION=${INPUT_LOVEVERSION:-"11.3"}
 
+# Setup output directory
+mkdir love-build
+
 # Generate love file
 # TODO: Have as input a working directory selector
-zip -r "./${APP_NAME}.love" ${GITHUB_WORKSPACE}/* -x '*.git*'
+zip -r "./love-build/${APP_NAME}.love" ${GITHUB_WORKSPACE}/* -x '*.git*'
 # Export filename
-echo "::set-output name=love-filename::${PWD}/${APP_NAME}.love"
+echo "::set-output name=love-filename::${PWD}/love-build/${APP_NAME}.love"
 
 ### macos
 # Download love for macos
@@ -26,9 +29,9 @@ if [ -f "${GITHUB_WORKSPACE}/Info.plist" ]; then
 fi
 mv love.app "${APP_NAME}.app"
 # Setup final archives
-zip -ry "${APP_NAME}_macos.zip" "${APP_NAME}.app" && rm -rf "${APP_NAME}.app"
+zip -ry "love-build/${APP_NAME}_macos.zip" "${APP_NAME}.app" && rm -rf "${APP_NAME}.app"
 # Export filename
-echo "::set-output name=macos-filename::${PWD}/${APP_NAME}_macos.zip"
+echo "::set-output name=macos-filename::${PWD}/love-build/${APP_NAME}_macos.zip"
 
 
 ### Windows
@@ -44,6 +47,6 @@ rm "${APP_NAME}_win32/love.ico"
 rm "${APP_NAME}_win32/changes.txt"
 rm "${APP_NAME}_win32/readme.txt"
 # Setup final archive
-zip -ry "${APP_NAME}_win32.zip" "${APP_NAME}_win32" && rm -rf "${APP_NAME}_win32"
+zip -ry "love-build/${APP_NAME}_win32.zip" "${APP_NAME}_win32" && rm -rf "${APP_NAME}_win32"
 # Export filename
-echo "::set-output name=win32-filename::${PWD}/${APP_NAME}_win32.zip"
+echo "::set-output name=win32-filename::${PWD}/love-build/${APP_NAME}_win32.zip"
