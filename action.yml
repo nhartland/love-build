@@ -16,7 +16,7 @@ inputs:
   usingLoveRocks:
     description: 'Flag activating loverocks support'
     required: false
-    default: 'false'
+    default: false
 outputs:
   love-filename: 
     description: 'Filename of built love file'
