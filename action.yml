@@ -1,19 +1,20 @@
 # action.yml
 name: 'LÖVE Build'
+author: 'Nathan Hartland <@nhartland>'
 description: 'Action for building LÖVE project distributables (Win32/Mac/love)'
 branding:
   icon: 'heart'
   color: 'blue'
 inputs:
-  applicationName:
+  app-name:
     description: 'Name of the application to be built'
     required: true
     default: 'love-build-app'
-  loveVersion:
+  love-version:
     description: 'Version of LÖVE to be used in building the application'
     required: true
     default: '11.3'
-  usingLoveRocks:
+  enable-loverocks:
     description: 'Flag activating loverocks support'
     required: false
     default: false

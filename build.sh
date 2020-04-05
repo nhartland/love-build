@@ -2,20 +2,20 @@
 set -e
 
 # Check for application name
-if [ -z "$INPUT_APPLICATIONNAME" ]; then
-    echo "\$INPUT_APPLICATIONNAME is unspecified"
+if [ -z "$INPUT_APP_NAME" ]; then
+    echo "\$INPUT_APP_NAME is unspecified"
     exit 1
 fi
 
 # Check for love version
-if [ -z "$INPUT_LOVEVERSION" ]; then
-    echo "\$INPUT_LOVEVERSION is unspecified"
+if [ -z "$INPUT_LOVE_VERSION" ]; then
+    echo "\$INPUT_LOVE_VERSION is unspecified"
     exit 1
 fi
 
 # Shorten variables a little
-AN=${INPUT_APPLICATIONNAME}
-LV=${INPUT_LOVEVERSION}
+AN=${INPUT_APP_NAME}
+LV=${INPUT_LOVE_VERSION}
 
 # Change CWD to the Github Workspace
 cd "${GITHUB_WORKSPACE}"
@@ -23,7 +23,7 @@ cd "${GITHUB_WORKSPACE}"
 ### Dependencies #################################################
 
 # If the usingLoveRocks flag is set to true, build loverocks deps
-if [ "${INPUT_USINGLOVEROCKS}" = true ]; then
+if [ "${INPUT_ENABLE_LOVEROCKS}" = true ]; then
     loverocks deps
 fi
 
