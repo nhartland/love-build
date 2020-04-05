@@ -2,14 +2,14 @@
 set -e
 
 # Check for application name
-if [ -z "$INPUT_APP_NAME" ]; then
-    echo "\$INPUT_APP_NAME is unspecified"
+if [ -z "${INPUT_APP-NAME}" ]; then
+    echo "Application name is unspecified"
     exit 1
 fi
 
 # Check for love version
 if [ -z "$INPUT_LOVE_VERSION" ]; then
-    echo "\$INPUT_LOVE_VERSION is unspecified"
+    echo "LOVE version is unspecified"
     exit 1
 fi
 
