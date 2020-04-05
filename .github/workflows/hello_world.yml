@@ -1,0 +1,38 @@
+name: build-release
+
+on:
+  push:
+    branches: [ master ]
+  pull_request:
+    branches: [ master ]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v2
+
+    - id: love-build
+      uses: nhartland/love-build@master
+      with:
+        app_name: 'hello_world'
+        love_version: '11.3'
+        source_dir: ${{ github.workspace }}/tests/hello_world
+        
+    - name: Upload macos build
+      uses: actions/upload-artifact@v1
+      with:
+        name: hw_macos-build
+        path: ${{ steps.love-build.outputs.macos-filename }}
+
+    - name: Upload win32 build
+      uses: actions/upload-artifact@v1
+      with:
+        name: hw_win32-build
+        path: ${{ steps.love-build.outputs.win32-filename }}
+
+    - name: Upload love build
+      uses: actions/upload-artifact@v1
+      with:
+        name: hw_love-build
+        path: ${{ steps.love-build.outputs.love-filename }}

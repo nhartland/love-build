@@ -1,0 +1,39 @@
+name: build-release
+
+on:
+  push:
+    branches: [ master ]
+  pull_request:
+    branches: [ master ]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v2
+
+    - id: love-build
+      uses: nhartland/love-build@master
+      with:
+        app_name: 'game_of_life'
+        love_version: '11.3'
+        enable_loverocks: true
+        source_dir: ${{ github.workspace }}/tests/game_of_life
+        
+    - name: Upload macos build
+      uses: actions/upload-artifact@v1
+      with:
+        name: gol_macos-build
+        path: ${{ steps.love-build.outputs.macos-filename }}
+
+    - name: Upload win32 build
+      uses: actions/upload-artifact@v1
+      with:
+        name: gol_win32-build
+        path: ${{ steps.love-build.outputs.win32-filename }}
+
+    - name: Upload love build
+      uses: actions/upload-artifact@v1
+      with:
+        name: gol_love-build
+        path: ${{ steps.love-build.outputs.love-filename }}
