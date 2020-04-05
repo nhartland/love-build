@@ -1,6 +1,6 @@
 FROM alpine:latest
 # Install general dependencies
-RUN  apk add --update zip
+RUN  apk add --update zip git
 # Install loverocks
 RUN  apk add --update luarocks5.1
 RUN luarocks-5.1 install loverocks
