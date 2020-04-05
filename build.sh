@@ -1,9 +1,6 @@
 #!/bin/sh
 set -e # Exit whenever a single command fails
 
-# TODO: Have as input a working directory selector
-cd "${GITHUB_WORKSPACE:-"."}"
-
 # TODO: Build the love2d package with loverocks
 # loverocks deps
 
@@ -13,7 +10,8 @@ LOVE_VERSION=${INPUT_LOVEVERSION:-"11.3"}
 
 
 # Generate love file
-zip -r "./${APP_NAME}.love" ./*
+# TODO: Have as input a working directory selector
+zip -r "./${APP_NAME}.love" "./${GITHUB_WORKSPACE}"
 
 ### macos
 # Download love for macos
