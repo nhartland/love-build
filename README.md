@@ -1,5 +1,7 @@
-![Test](https://github.com/nhartland/love-build/workflows/Test/badge.svg)
 # love-build
+
+![Test](https://github.com/nhartland/love-build/workflows/Test/badge.svg)
+
 GitHub Action for building a [LÖVE](https://love2d.org/) Project. 
 
 This action produces a LÖVE file, along with macOS and Windows executable
