@@ -8,7 +8,7 @@ function love.conf(t)
     t.title = 'GameOfLife'
     t.package = 'GameOfLife'
     t.loveVersion = '11.3'
-    t.version = "1.0"
+    t.version = "11.3"
     t.author = "Nathan Hartland"
     t.email = "nathan@pseudorandom.dev"
     t.description = "A basic game of life"
