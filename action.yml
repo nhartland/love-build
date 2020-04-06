@@ -28,11 +28,11 @@ inputs:
     default: ${{ github.workspace }}
 outputs:
   love-filename: 
-    description: 'Filename of built love file'
+    description: 'Filename (in result_dir) of built love file'
   win32-filename: 
-    description: 'Filename of built win32 application'
+    description: 'Filename (in result_dir) of built win32 application'
   macos-filename: 
-    description: 'Filename of built macos application'
+    description: 'Filename (in result_dir) of built macos application'
 runs:
   using: 'docker'
   image: 'Dockerfile'
