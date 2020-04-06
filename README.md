@@ -71,7 +71,7 @@ steps:
 - uses: nhartland/love-build@master
   id: love-build
   with:
-    app_name: 'game_of_life'
+    app_name: 'hello_world'
     love_version: '11.3'
 - uses: actions/upload-artifact@v1
   with:
