@@ -1,6 +1,6 @@
 #!/bin/sh
 set -e
-set -o xtrace
+set -x
 
 
 # Check for application name
