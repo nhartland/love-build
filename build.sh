@@ -2,43 +2,12 @@
 set -e
 set -x
 
-#printenv | sed 's;=.*;;' | sort
-
-: "${INPUT_APP_NAME:?Error: application name unset}"
-: "${INPUT_LOVE_VERSION:?Error: love version unset}"
-: "${INPUT_SOURCE_DIR:?Error: source directory unset}"
-: "${INPUT_BUILD_DIR:?Error: build directory unset}"
-: "${INPUT_RESULT_DIR:?Error: result directory unset}"
-
-# Check for application name
-if [ -z "${INPUT_APP_NAME}" ]; then
-    echo "Application name is unspecified"
-    exit 1
-fi
-
-# Check for love version
-if [ -z "${INPUT_LOVE_VERSION}" ]; then
-    echo "LOVE version is unspecified"
-    exit 1
-fi
-
-# Check for source directory 
-if [ -z "${INPUT_SOURCE_DIR}" ]; then
-    echo "Source directory is unspecified"
-    exit 1
-fi
-
-# Check for build directory 
-if [ -z "${INPUT_BUILD_DIR}" ]; then
-    echo "Build directory is unspecified"
-    exit 1
-fi
-
-# Check for result directory 
-if [ -z "${INPUT_RESULT_DIR}" ]; then
-    echo "Result directory is unspecified"
-    exit 1
-fi
+: "${INPUT_APP_NAME:?'Error: application name unset'}"
+: "${INPUT_LOVE_VERSION:?'Error: love version unset'}"
+: "${INPUT_SOURCE_DIR:?'Error: source directory unset'}"
+: "${INPUT_BUILD_DIR:?'Error: build directory unset'}"
+: "${INPUT_RESULT_DIR:?'Error: result directory unset'}"
+: "${INPUT_ENABLE_LOVEROCKS:?'Error: loverocks flag unset'}"
 
 # Shorten variables a little
 AN=${INPUT_APP_NAME}

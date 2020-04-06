@@ -23,9 +23,9 @@ inputs:
   build_dir:
     description: 'Directory where the intermediate build files are stored. By default the GA workspace (root of cloned repository).'
     default: ${{ github.workspace }}/love-build
-    #  result_dir:
-    #    description: 'Directory where the built distributables should be located. By default the GA workspace (root of cloned repository).'
-    #    default: ${{ github.workspace }}
+  result_dir:
+    description: 'Directory where the built distributables should be located. By default the GA workspace (root of cloned repository).'
+    default: ${{ github.workspace }}
 outputs:
   love-filename: 
     description: 'Filename of built love file'
