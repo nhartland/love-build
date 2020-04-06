@@ -1,9 +1,9 @@
 # love-build
-GitHub Action for building a LÖVE Project. 
+GitHub Action for building a [LÖVE](https://love2d.org/) Project. 
 
 This action produces a LÖVE file, along with macOS and Windows executable
 packages for a LÖVE project. For projects making use of
-[luarocks](https://luarocks.org/) packages, this build action supports `loverocks`
+[luarocks](https://luarocks.org/) packages, this build action supports
 [loverocks](https://github.com/Alloyed/loverocks) when a `conf.lua` is supplied
 in the source directory and the `enable_loverocks` input flag is set to true.
 
@@ -83,6 +83,16 @@ steps:
     name: love-build
     path: ${{ steps.love-build.outputs.love-filename }}
 ```
+
+### Working Examples
+
+In this directory are two test cases, a basic "Hello World" with no `luarocks`
+dependencies and a Game of Life simulation using the
+[forma](https://github.com/nhartland/forma) package installed via `loverocks`.
+
+The build workflows for these can be found in the [GitHub workflow
+subdirectory](.github/workflows/test_workflow.yml).
+
 
 ### Limitations
 

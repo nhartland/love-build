@@ -19,7 +19,5 @@ function love.conf(t)
     t.identity = "identity"
     t.dependencies = {
         "forma ~> 0.2",
-        "date ~> 2.1.2", -- Not actually required
-        "30log ~> 1.3.0" -- Not actually required
     }
 end
