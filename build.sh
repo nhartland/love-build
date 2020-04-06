@@ -35,6 +35,14 @@ fi
 AN=${INPUT_APP_NAME}
 LV=${INPUT_LOVE_VERSION}
 
+echo "-- LOVE build parameters --"
+echo "App name: ${AN}"
+echo "LOVE version: ${LV}"
+echo "--"
+echo "Source directory: ${INPUT_SOURCE_DIR}"
+echo "Build directory: ${INPUT_BUILD_DIR}"
+echo "Result directory: ${INPUT_RESULT_DIR}"
+
 # Make results directory if it does not exist
 mkdir -p "${INPUT_RESULT_DIR}"
 
