@@ -1,6 +1,6 @@
 #!/bin/sh
 set -e
-set -x
+#set -x
 
 : "${INPUT_APP_NAME:?'Error: application name unset'}"
 : "${INPUT_LOVE_VERSION:?'Error: love version unset'}"
@@ -12,6 +12,8 @@ set -x
 # Shorten variables a little
 AN=${INPUT_APP_NAME}
 LV=${INPUT_LOVE_VERSION}
+
+echo "GitHub Ref: ${GITHUB_REF}"
 
 echo "-- LOVE build parameters --"
 echo "App name: ${AN}"
