@@ -42,10 +42,10 @@ steps:
     # Use when the `main.lua` is in a subdirectory of your repository (here in `src/love`).
     source_dir: ${{ github.workspace }}/src/love
     # Specifies the location for temporary build files (by default `love-build` in your repository root.
-    # You should only need to change this if you are already using a directory `love-build` in your repo root.
-    build_dir: ${{ github.workspace }}/otherbuilddir
+    # You should only need to change this if you performing multiple application builds in one job.
+    build_dir: ${{ github.home }}/nondefault_builddir
     # Specifies the output location for the distributables, by default the repository root directory.
-    result_dir: ${{ github.workspace }}/result_dir
+    result_dir: ${{ github.workspace }}/nondefault_result_dir
 ```
 
 To see the full options specification please refer to the [action.yml](action.yml).
