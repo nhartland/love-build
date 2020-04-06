@@ -89,7 +89,7 @@ steps:
 
 ### Working Examples
 
-In this directory are two test cases, a basic "Hello World" with no `luarocks`
+In this directory are two test cases, a basic "Hello World" with no 
 dependencies and a Game of Life simulation using the
 [forma](https://github.com/nhartland/forma) package installed via `loverocks`.
 
