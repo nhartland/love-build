@@ -1,4 +1,4 @@
-FROM alpine:latest
+FROM alpine:3.11.5
 # Install general dependencies
 RUN  apk add --no-cache zip git luarocks5.1
 RUN luarocks-5.1 install loverocks
