@@ -1,5 +1,7 @@
 #!/bin/sh
 set -e
+set -o xtrace
+
 
 # Check for application name
 if [ -z "${INPUT_APP_NAME}" ]; then
