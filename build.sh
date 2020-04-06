@@ -1,6 +1,8 @@
 #!/bin/sh
 set -e
-#set -x
+
+# Debug mode
+set -x
 
 : "${INPUT_APP_NAME:?'Error: application name unset'}"
 : "${INPUT_LOVE_VERSION:?'Error: love version unset'}"
