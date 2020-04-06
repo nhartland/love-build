@@ -34,18 +34,18 @@ steps:
 steps:
 - uses: actions/checkout@v2
 - uses: nhartland/love-build@master
-with:
-  app_name: 'hello_world'
-  love_version: '11.3'
-  # runs `loverocks deps` in the source_dir to build luarocks dependencies.
-  enable_loverocks: true 
-  # Use when the `main.lua` is in a subdirectory of your repository (here in `src/love`).
-  source_dir: ${{ github.workspace }}/src/love
-  # Specifies the location for temporary build files (by default `love-build` in your repository root.
-  # You should only need to change this if you are already using a directory `love-build` in your repo root.
-  build_dir: ${{ github.workspace }}/otherbuilddir
-  # Specifies the output location for the distributables, by default the repository root directory.
-  result_dir: ${{ github.workspace }}/result_dir
+  with:
+    app_name: 'hello_world'
+    love_version: '11.3'
+    # runs `loverocks deps` in the source_dir to build luarocks dependencies.
+    enable_loverocks: true 
+    # Use when the `main.lua` is in a subdirectory of your repository (here in `src/love`).
+    source_dir: ${{ github.workspace }}/src/love
+    # Specifies the location for temporary build files (by default `love-build` in your repository root.
+    # You should only need to change this if you are already using a directory `love-build` in your repo root.
+    build_dir: ${{ github.workspace }}/otherbuilddir
+    # Specifies the output location for the distributables, by default the repository root directory.
+    result_dir: ${{ github.workspace }}/result_dir
 ```
 
 To see the full options specification please refer to the [action.yml](action.yml).
