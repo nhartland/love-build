@@ -1,4 +1,7 @@
 # love-build
+
+![Test](https://github.com/nhartland/love-build/workflows/Test/badge.svg)
+
 GitHub Action for building a [LÖVE](https://love2d.org/) Project. 
 
 This action produces a LÖVE file, along with macOS and Windows executable
@@ -31,18 +34,18 @@ steps:
 steps:
 - uses: actions/checkout@v2
 - uses: nhartland/love-build@master
-with:
-  app_name: 'hello_world'
-  love_version: '11.3'
-  # runs `loverocks deps` in the source_dir to build luarocks dependencies.
-  enable_loverocks: true 
-  # Use when the `main.lua` is in a subdirectory of your repository (here in `src/love`).
-  source_dir: ${{ github.workspace }}/src/love
-  # Specifies the location for temporary build files (by default `love-build` in your repository root.
-  # You should only need to change this if you are already using a directory `love-build` in your repo root.
-  build_dir: ${{ github.workspace }}/otherbuilddir
-  # Specifies the output location for the distributables, by default the repository root directory.
-  result_dir: ${{ github.workspace }}/result_dir
+  with:
+    app_name: 'hello_world'
+    love_version: '11.3'
+    # runs `loverocks deps` in the source_dir to build luarocks dependencies.
+    enable_loverocks: true 
+    # Use when the `main.lua` is in a subdirectory of your repository (here in `src/love`).
+    source_dir: ${{ github.workspace }}/src/love
+    # Specifies the location for temporary build files (by default `love-build` in your repository root.
+    # You should only need to change this if you are already using a directory `love-build` in your repo root.
+    build_dir: ${{ github.workspace }}/otherbuilddir
+    # Specifies the output location for the distributables, by default the repository root directory.
+    result_dir: ${{ github.workspace }}/result_dir
 ```
 
 To see the full options specification please refer to the [action.yml](action.yml).
@@ -68,7 +71,7 @@ steps:
 - uses: nhartland/love-build@master
   id: love-build
   with:
-    app_name: 'game_of_life'
+    app_name: 'hello_world'
     love_version: '11.3'
 - uses: actions/upload-artifact@v1
   with:
@@ -86,15 +89,12 @@ steps:
 
 ### Working Examples
 
-In this directory are two test cases, a basic "Hello World" with no `luarocks`
+In this directory are two test cases, a basic "Hello World" with no 
 dependencies and a Game of Life simulation using the
 [forma](https://github.com/nhartland/forma) package installed via `loverocks`.
 
-The code for these test applications can be found in the [tests](tests).
-
-The build workflows for these can be found in the [GitHub workflow
-subdirectory](.github/workflows/test_workflow.yml).
-
+- [Test Applications](tests)
+- [Test Workflow](.github/workflows/test_workflow.yml)
 
 ### Limitations
 
