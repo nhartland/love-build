@@ -11,4 +11,4 @@ love-build action.
    package.
 
 The GitHub Actions workflow to build these applications is located
-[here](../.github/workflows/Tests.yml).
+[here](../.github/workflows/test_workflow.yml).

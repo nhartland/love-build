@@ -93,7 +93,7 @@ dependencies and a Game of Life simulation using the
 The code for these test applications can be found in the [tests](tests).
 
 The build workflows for these can be found in the [GitHub workflow
-subdirectory](.github/workflows/Tests.yml).
+subdirectory](.github/workflows/test_workflow.yml).
 
 
 ### Limitations
