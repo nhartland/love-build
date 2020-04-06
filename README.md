@@ -1,3 +1,4 @@
+![Test](https://github.com/nhartland/love-build/workflows/Test/badge.svg)
 # love-build
 GitHub Action for building a [LÖVE](https://love2d.org/) Project. 
 
@@ -90,9 +91,8 @@ In this directory are two test cases, a basic "Hello World" with no `luarocks`
 dependencies and a Game of Life simulation using the
 [forma](https://github.com/nhartland/forma) package installed via `loverocks`.
 
-The code for these test applications can be found in the [tests](tests).
-
-The build workflows for these can be found in the [GitHub workflow
+The code for these test applications can be found in the [tests](tests) directory. 
+The build workflow can be found in the [GitHub workflow 
 subdirectory](.github/workflows/test_workflow.yml).
 
 
