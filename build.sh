@@ -2,6 +2,13 @@
 set -e
 set -x
 
+#printenv | sed 's;=.*;;' | sort
+
+"${INPUT_APP_NAME:?Error: application name unset}"
+"${INPUT_LOVE_VERSION:?Error: love version unset}"
+"${INPUT_SOURCE_DIR:?Error: source directory unset}"
+"${INPUT_BUILD_DIR:?Error: build directory unset}"
+"${INPUT_RESULT_DIR:?Error: result directory unset}"
 
 # Check for application name
 if [ -z "${INPUT_APP_NAME}" ]; then
