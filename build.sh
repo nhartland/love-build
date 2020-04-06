@@ -38,10 +38,11 @@ LV=${INPUT_LOVE_VERSION}
 echo "-- LOVE build parameters --"
 echo "App name: ${AN}"
 echo "LOVE version: ${LV}"
-echo "--"
+echo "---------------------------"
 echo "Source directory: ${INPUT_SOURCE_DIR}"
 echo "Build directory: ${INPUT_BUILD_DIR}"
 echo "Result directory: ${INPUT_RESULT_DIR}"
+echo "---------------------------"
 
 # Make results directory if it does not exist
 mkdir -p "${INPUT_RESULT_DIR}"
@@ -49,6 +50,7 @@ mkdir -p "${INPUT_RESULT_DIR}"
 # Change CWD to the build directory and copy source files
 mkdir -p "${INPUT_BUILD_DIR}"
 cp -a "${INPUT_SOURCE_DIR}/." "${INPUT_BUILD_DIR}"
+cd "${INPUT_BUILD_DIR}"
 
 ### Dependencies #################################################
 
