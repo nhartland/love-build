@@ -22,7 +22,7 @@ use the following job steps to check out and build your project.
 ```yaml
 steps:
 - uses: actions/checkout@v2
-- uses: nhartland/love-build@master
+- uses: nhartland/love-build@v1-beta
   with:
    app_name: 'hello_world'
    love_version: '11.3'
@@ -33,7 +33,7 @@ steps:
 ```yaml
 steps:
 - uses: actions/checkout@v2
-- uses: nhartland/love-build@master
+- uses: nhartland/love-build@v1-beta
   with:
     app_name: 'hello_world'
     love_version: '11.3'
@@ -68,7 +68,7 @@ If `results_dir` is left as default (the GitHub working directory), the produced
 ```yaml
 steps:
 - uses: actions/checkout@v2
-- uses: nhartland/love-build@master
+- uses: nhartland/love-build@v1-beta
   id: love-build
   with:
     app_name: 'hello_world'
