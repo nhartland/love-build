@@ -28,7 +28,7 @@ echo "---------------------------"
 mkdir -p "${INPUT_RESULT_DIR}"
 
 # Change CWD to the build directory and copy source files
-BUILD_DIR=$(mktemp -d -t love-build)
+BUILD_DIR=$(mktemp -d -t love-build-XXXXXX)
 echo "Build directory: ${BUILD_DIR}"
 cp -a "${INPUT_SOURCE_DIR}/." "${BUILD_DIR}"
 cd "${BUILD_DIR}"
