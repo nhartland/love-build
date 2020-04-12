@@ -18,7 +18,7 @@ get_love_binaries() {
     glb_arch=$1
     glb_root_url="https://github.com/love2d/love/releases/download"
     wget "${glb_root_url}/${INPUT_LOVE_VERSION}/love-${INPUT_LOVE_VERSION}-${glb_arch}.zip"
-    unzip "love-${INPUT_LOVE_VERSION}-${glb_arch}.zip" -d "love_${glb_arch}"
+    unzip "love-${INPUT_LOVE_VERSION}-${glb_arch}.zip" 
     rm "love-${INPUT_LOVE_VERSION}-${glb_arch}.zip" 
 }
 
@@ -53,17 +53,16 @@ build_macos(){
         cd "${bm_build_dir}" 
         # Download love for macos
         get_love_binaries "macos"
-        ls
 
         # Copy Data
-        cp "application.love" "love_macos/Contents/Resources/"
+        cp "application.love" "love.app/Contents/Resources/"
         # If a plist file is provided, use that
         if [ -f "${INPUT_SOURCE_DIR}/Info.plist" ]; then
-            cp "${INPUT_SOURCE_DIR}/Info.plist" "love_macos/Contents/"
+            cp "${INPUT_SOURCE_DIR}/Info.plist" "love.app/Contents/"
         fi
 
         # Setup final archives
-        mv "love_macos" "${INPUT_APP_NAME}.app"
+        mv "love.app" "${INPUT_APP_NAME}.app"
         zip -ry "${INPUT_APP_NAME}_macos.zip" "${INPUT_APP_NAME}.app" 
     )
     mv "${bm_build_dir}}/${INPUT_APP_NAME}_macos.zip" "${INPUT_RESULT_DIR}"
@@ -74,6 +73,7 @@ build_macos(){
 # Exports a zipped win32 application to the
 # result directory.
 build_windows(){
+    bw_target="${INPUT_APP_NAME}_win32"
     bw_build_dir=$(mktemp -d -t love-build-XXXXXX)
     build_lovefile "${bw_build_dir}/application.love"
     (
@@ -82,21 +82,22 @@ build_windows(){
         # Download love for macos
         get_love_binaries "win32"
 
+        mv "love-${INPUT_LOVE_VERSION}-win32" "${INPUT_APP_NAME}_win32"
+
         # Copy data
-        cat "love_win32/love.exe" "application.love" > "love_win32/${INPUT_APP_NAME}.exe"
+        cat "${bw_target}/love.exe" "application.love" > "${bw_target}/${INPUT_APP_NAME}.exe"
         # Delete unneeded files
-        rm "love_win32/love.exe"
-        rm "love_win32/lovec.exe"
-        rm "love_win32/love.ico"
-        rm "love_win32/changes.txt"
-        rm "love_win32/readme.txt"
+        rm "${bw_target}/love.exe"
+        rm "${bw_target}/lovec.exe"
+        rm "${bw_target}/love.ico"
+        rm "${bw_target}/changes.txt"
+        rm "${bw_target}/readme.txt"
 
         # Setup final archive
-        mv "love_win32" "${INPUT_APP_NAME}_win32"
-        zip -ry "${INPUT_APP_NAME}_win32.zip" "${INPUT_APP_NAME}_win32"
+        zip -ry "${bw_target}.zip" "${bw_target}"
     )
-    mv "${bw_build_dir}/${INPUT_APP_NAME}_win32.zip" "${INPUT_RESULT_DIR}"/
-    echo "::set-output name=win32-filename::${INPUT_APP_NAME}_win32.zip"
+    mv "${bw_build_dir}/${bw_target}.zip" "${INPUT_RESULT_DIR}"/
+    echo "::set-output name=win32-filename::${bw_target}.zip"
     rm -rf "${bw_build_dir}"
 }
 
