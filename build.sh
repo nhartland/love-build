@@ -15,12 +15,11 @@ check_environment() {
 }
 
 get_love_binaries() {
-    version=$1
-    arch=$2
-    root_url="https://github.com/love2d/love/releases/download"
-    wget "${root_url}/${version}/love-${version}-${arch}.zip"
-    unzip "love-${version}-${arch}.zip" -d "love_${arch}"
-    rm "love-${version}-${arch}.zip" 
+    glb_arch=$1
+    glb_root_url="https://github.com/love2d/love/releases/download"
+    wget "${glb_root_url}/${INPUT_LOVE_VERSION}/love-${INPUT_LOVE_VERSION}-${glb_arch}.zip"
+    unzip "love-${INPUT_LOVE_VERSION}-${glb_arch}.zip" -d "love_${glb_arch}"
+    rm "love-${INPUT_LOVE_VERSION}-${glb_arch}.zip" 
 }
 
 # Exports a .love file for the application to the
@@ -28,32 +27,32 @@ get_love_binaries() {
 # build_lovefile /path/to/new/lovefile.love
 # Dependencies are handled through loverocks
 build_lovefile(){
-    target=$1
-    build_dir=$(mktemp -d -t love-build-XXXXXX)
-    cp -a "${INPUT_SOURCE_DIR}/." "${build_dir}"
+    bl_target=$1
+    bl_build_dir=$(mktemp -d -t love-build-XXXXXX)
+    cp -a "${INPUT_SOURCE_DIR}/." "${bl_build_dir}"
     (
         # Change to build dir (subshell to preserve cwd)
-        cd "${build_dir}" 
+        cd "${bl_build_dir}" 
         # If the usingLoveRocks flag is set to true, build loverocks deps
         if [ "${INPUT_ENABLE_LOVEROCKS}" = true ]; then
             loverocks deps
         fi
         zip -r "application.love" ./* -x '*.git*'
     )
-    mv "${build_dir}/application.love" "${target}"
-    rm -rf "${build_dir}"
+    mv "${bl_build_dir}/application.love" "${bl_target}"
+    rm -rf "${bl_build_dir}"
 }
 
 # Exports a zipped macOS application to the
 # result directory.
 build_macos(){
-    build_dir=$(mktemp -d -t love-build-XXXXXX)
-    build_lovefile "${build_dir}/application.love"
+    bm_build_dir=$(mktemp -d -t love-build-XXXXXX)
+    build_lovefile "${bm_build_dir}/application.love"
     (
         # Change to build dir (subshell to preserve cwd)
-        cd "${build_dir}" 
+        cd "${bm_build_dir}" 
         # Download love for macos
-        get_love_binaries "${INPUT_LOVE_VERSION}" "macos"
+        get_love_binaries "macos"
 
         # Copy Data
         cp "application.love" "love_macos/Contents/Resources/ "
@@ -65,24 +64,22 @@ build_macos(){
         # Setup final archives
         mv "love_macos" "${INPUT_APP_NAME}.app"
         zip -ry "${INPUT_APP_NAME}_macos.zip" "${INPUT_APP_NAME}.app" 
-        mv "${INPUT_APP_NAME}_macos.zip" "${INPUT_RESULT_DIR}"
     )
-    # Cleanup build directory
-    rm -rf "${build_dir}"
-    # Export filename
-    echo "::set-output name=macos-filename::${AN}_macos.zip"
+    mv "${bm_build_dir}}/${INPUT_APP_NAME}_macos.zip" "${INPUT_RESULT_DIR}"
+    echo "::set-output name=macos-filename::${INPUT_APP_NAME}_macos.zip"
+    rm -rf "${bm_build_dir}"
 }
 
 # Exports a zipped win32 application to the
 # result directory.
 build_windows(){
-    build_dir=$(mktemp -d -t love-build-XXXXXX)
-    build_lovefile "${build_dir}/application.love"
+    bw_build_dir=$(mktemp -d -t love-build-XXXXXX)
+    build_lovefile "${bw_build_dir}/application.love"
     (
         # Change to build dir (subshell to preserve cwd)
-        cd "${build_dir}" 
+        cd "${bw_build_dir}" 
         # Download love for macos
-        get_love_binaries "${INPUT_LOVE_VERSION}" "win32"
+        get_love_binaries "win32"
 
         # Copy data
         cat "love_win32/love.exe" "application.love" > "love_win32/${INPUT_APP_NAME}.exe"
@@ -96,12 +93,10 @@ build_windows(){
         # Setup final archive
         mv "love_win32" "${INPUT_APP_NAME}_win32"
         zip -ry "${INPUT_APP_NAME}_win32.zip" "${INPUT_APP_NAME}_win32"
-        mv "${INPUT_APP_NAME}_win32.zip" "${INPUT_RESULT_DIR}"/
     )
-    # Cleanup build directory
-    rm -rf "${build_dir}"
-    # Export filename
-    echo "::set-output name=win32-filename::${AN}_win32.zip"
+    mv "${bw_build_dir}/${INPUT_APP_NAME}_win32.zip" "${INPUT_RESULT_DIR}"/
+    echo "::set-output name=win32-filename::${INPUT_APP_NAME}_win32.zip"
+    rm -rf "${bw_build_dir}"
 }
 
 main() {
@@ -109,8 +104,8 @@ main() {
     check_environment    
 
     echo "-- LOVE build parameters --"
-    echo "App name: ${AN}"
-    echo "LOVE version: ${LV}"
+    echo "App name: ${INPUT_APP_NAME}"
+    echo "LOVE version: ${INPUT_LOVE_VERSION}"
     echo "---------------------------"
     echo "Source directory: ${INPUT_SOURCE_DIR}"
     echo "Result directory: ${INPUT_RESULT_DIR}"
