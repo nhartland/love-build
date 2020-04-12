@@ -11,7 +11,7 @@ get_love_binaries() {
     ARCH=$2
     ROOT_URL="https://github.com/love2d/love/releases/download"
     wget "${ROOT_URL}/${VERS}/love-${VERS}-${ARCH}.zip"
-    unzip "love-${LV}-${ARCH}.zip"
+    unzip "love-${LV}-${ARCH}.zip" -d "love_${ARCH}"
     rm "love-${LV}-${ARCH}.zip" 
 }
 
@@ -60,13 +60,13 @@ main() {
     
     # Download love for macos
     get_love_binaries "${LV}" "macos"
+    mv "love_macos" "${AN}.app"
     # Copy Data
-    cp "${AN}.love" love.app/Contents/Resources/ 
+    cp "${AN}.love" "${AN}.app/Contents/Resources/ "
     # If a plist file is provided, use that
     if [ -f "Info.plist" ]; then
-        cp "Info.plist" love.app/Contents/
+        cp "Info.plist" "${AN}.app/Contents/"
     fi
-    mv love.app "${AN}.app"
     # Setup final archives
     zip -ry "${AN}_macos.zip" "${AN}.app" && rm -rf "${AN}.app"
     mv "${AN}_macos.zip" "${INPUT_RESULT_DIR}"/
@@ -77,6 +77,7 @@ main() {
     
     # Download love for windows
     get_love_binaries "${LV}" "win32"
+    mv "love_win32" "${AN}_win32"
     # Copy data
     cat "${AN}_win32/love.exe" "${AN}.love" > "${AN}_win32/${AN}.exe"
     # Delete unneeded files
