@@ -12,6 +12,10 @@ check_environment() {
     : "${INPUT_SOURCE_DIR:?'Error: source directory unset'}"
     : "${INPUT_RESULT_DIR:?'Error: result directory unset'}"
     : "${INPUT_ENABLE_LOVEROCKS:?'Error: loverocks flag unset'}"
+
+    # Append workspace dir to relevant paths
+    SOURCE_DIR=${GITHUB_WORKSPACE}/${INPUT_SOURCE_DIR}
+    RESULT_DIR=${GITHUB_WORKSPACE}/${INPUT_RESULT_DIR}
 }
 
 # Fetches the love binaries from GitHub, takes architecture (macos/win32/win64)
@@ -31,7 +35,7 @@ get_love_binaries() {
 build_lovefile(){
     blf_target=$1
     blf_build_dir=$(mktemp -d -t love-build-XXXXXX)
-    cp -a "${INPUT_SOURCE_DIR}/." "${blf_build_dir}"
+    cp -a "${SOURCE_DIR}/." "${blf_build_dir}"
     (
         # Change to build dir (subshell to preserve cwd)
         cd "${blf_build_dir}" 
@@ -59,16 +63,16 @@ build_macos(){
         # Copy Data
         cp "application.love" "love.app/Contents/Resources/"
         # If a plist file is provided, use that
-        if [ -f "${INPUT_SOURCE_DIR}/Info.plist" ]; then
-            cp "${INPUT_SOURCE_DIR}/Info.plist" "love.app/Contents/"
+        if [ -f "${SOURCE_DIR}/Info.plist" ]; then
+            cp "${SOURCE_DIR}/Info.plist" "love.app/Contents/"
         fi
 
         # Setup final archives
         mv "love.app" "${bm_target}.app"
         zip -ry "${bm_target}.zip" "${bm_target}.app" 
     )
-    mv "${bm_build_dir}/${bm_target}.zip" "${INPUT_RESULT_DIR}"
-    echo "::set-output name=macos-filename::${bm_target}.zip"
+    mv "${bm_build_dir}/${bm_target}.zip" "${RESULT_DIR}"
+    echo "::set-output name=macos-filename::${INPUT_RESULT_DIR}/${bm_target}.zip"
     rm -rf "${bm_build_dir}"
 }
 
@@ -100,7 +104,7 @@ build_windows(){
         zip -ry "${bw_target}.zip" "${bw_target}"
     )
     mv "${bw_build_dir}/${bw_target}.zip" "${INPUT_RESULT_DIR}"/
-    echo "::set-output name=${bw_arch}-filename::${bw_target}.zip"
+    echo "::set-output name=${bw_arch}-filename::${INPUT_RESULT_DIR}/${bw_target}.zip"
     rm -rf "${bw_build_dir}"
 }
 
@@ -121,8 +125,8 @@ main() {
     
     ### LOVE build ####################################################
     
-    build_lovefile "${INPUT_RESULT_DIR}/${INPUT_APP_NAME}.love"
-    echo "::set-output name=love-filename::${INPUT_APP_NAME}.love"
+    build_lovefile "${RESULT_DIR}/${INPUT_APP_NAME}.love"
+    echo "::set-output name=love-filename::${INPUT_RESULT_DIR}/${INPUT_APP_NAME}.love"
     
     ### macOS/win builds ##############################################
     

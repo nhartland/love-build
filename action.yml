@@ -1,35 +1,40 @@
 # action.yml
 name: 'LÖVE Build'
 author: 'Nathan Hartland <@nhartland>'
-description: 'Action for building LÖVE project distributables (Win32/Mac/love)'
+description: 'Action for building LÖVE project distributables (Win32/Win64/Mac/love)'
 branding:
   icon: 'heart'
   color: 'blue'
 inputs:
   app_name:
     description: 'Name of the application to be built'
-    required: true
     default: 'love-build-app'
+    required: true
   love_version:
     description: 'Version of LÖVE to be used in building the application'
-    required: true
     default: '11.3'
+    required: true
   enable_loverocks:
     description: 'Flag activating loverocks support'
     default: false
+    required: true
   source_dir:
-    description: 'Directory containing `main.lua`. By default the GA workspace (root of cloned repository).'
-    default: ${{ github.workspace }}
+    description: 'Path in the repository to the subdirectory containing `main.lua`. By default the repo root'
+    default: "/"
+    required: true
   result_dir:
-    description: 'Directory where the built distributables should be located. By default the GA workspace (root of cloned repository).'
-    default: ${{ github.workspace }}
+    description: 'Directory in the GitHub workspace where the built distributables should be located'
+    default: "/release"
+    required: true
 outputs:
   love-filename: 
-    description: 'Filename (in result_dir) of built love file'
+    description: 'Path (relative to GitHub workspace) of built love file'
   win32-filename: 
-    description: 'Filename (in result_dir) of built win32 application'
+    description: 'Path (relative to GitHub workspace) of built win32 application'
+  win64-filename: 
+    description: 'Path (relative to GitHub workspace) of built win64 application'
   macos-filename: 
-    description: 'Filename (in result_dir) of built macos application'
+    description: 'Path (relative to GitHub workspace) of built macos application'
 runs:
   using: 'docker'
   image: 'Dockerfile'
