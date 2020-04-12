@@ -46,6 +46,7 @@ build_lovefile(){
 # Exports a zipped macOS application to the
 # result directory.
 build_macos(){
+    bm_target="${INPUT_APP_NAME}_macos"
     bm_build_dir=$(mktemp -d -t love-build-XXXXXX)
     build_lovefile "${bm_build_dir}/application.love"
     (
@@ -62,11 +63,11 @@ build_macos(){
         fi
 
         # Setup final archives
-        mv "love.app" "${INPUT_APP_NAME}.app"
-        zip -ry "${INPUT_APP_NAME}_macos.zip" "${INPUT_APP_NAME}.app" 
+        mv "love.app" "${bm_target}.app"
+        zip -ry "${bm_target}.zip" "${bm_target}.app" 
     )
-    mv "${bm_build_dir}}/${INPUT_APP_NAME}_macos.zip" "${INPUT_RESULT_DIR}"
-    echo "::set-output name=macos-filename::${INPUT_APP_NAME}_macos.zip"
+    mv "${bm_build_dir}/${bm_target}.zip" "${INPUT_RESULT_DIR}"
+    echo "::set-output name=macos-filename::${bm_target}.zip"
     rm -rf "${bm_build_dir}"
 }
 
