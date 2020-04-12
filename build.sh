@@ -23,6 +23,10 @@ get_love_binaries() {
     rm "love-${version}-${arch}.zip" 
 }
 
+# Exports a .love file for the application to the
+# path specified as an argument. e.g
+# build_lovefile /path/to/new/lovefile.love
+# Dependencies are handled through loverocks
 build_lovefile(){
     target=$1
     build_dir=$(mktemp -d -t love-build-XXXXXX)
@@ -38,6 +42,33 @@ build_lovefile(){
     )
     mv "${build_dir}/application.love" "${target}"
     rm -rf "${build_dir}"
+}
+
+# Exports a zipped macOS application to the
+# result directory.
+build_macos(){
+    build_dir=$(mktemp -d -t love-build-XXXXXX)
+    build_lovefile "${build_dir}/application.love"
+    (
+        # Change to build dir (subshell to preserve cwd)
+        cd "${build_dir}" 
+        # Download love for macos
+        get_love_binaries "${INPUT_LOVE_VERSION}" "macos"
+        # Copy Data
+        cp "application.love" "love_macos/Contents/Resources/ "
+        # If a plist file is provided, use that
+        if [ -f "${INPUT_SOURCE_DIR}/Info.plist" ]; then
+            cp "${INPUT_SOURCE_DIR}/Info.plist" "love_macos/Contents/"
+        fi
+        # Setup final archives
+        mv "love_macos" "${INPUT_APP_NAME}.app"
+        zip -ry "${INPUT_APP_NAME}_macos.zip" "${INPUT_APP_NAME}.app" 
+        mv "${INPUT_APP_NAME}_macos.zip" "${INPUT_RESULT_DIR}"
+    )
+    # Cleanup build directory
+    rm -rf "${build_dir}"
+    # Export filename
+    echo "::set-output name=macos-filename::${AN}_macos.zip"
 }
 
 main() {
@@ -61,38 +92,17 @@ main() {
     
     # Change CWD to the build directory and copy source files
     BUILD_DIR=$(mktemp -d -t love-build-XXXXXX)
-    cp -a "${INPUT_SOURCE_DIR}/." "${BUILD_DIR}"
     cd "${BUILD_DIR}"
-    
-    ### Dependencies #################################################
-    
-    # If the usingLoveRocks flag is set to true, build loverocks deps
-    if [ "${INPUT_ENABLE_LOVEROCKS}" = true ]; then
-        loverocks deps
-    fi
     
     ### LOVE build ####################################################
     
-    zip -r "${AN}.love" ./* -x '*.git*'
+    build_lovefile "${AN}.love"
     cp "${AN}.love" "${INPUT_RESULT_DIR}"/
     echo "::set-output name=love-filename::${AN}.love"
     
     ### macos build ###################################################
     
-    # Download love for macos
-    get_love_binaries "${LV}" "macos"
-    mv "love_macos" "${AN}.app"
-    # Copy Data
-    cp "${AN}.love" "${AN}.app/Contents/Resources/ "
-    # If a plist file is provided, use that
-    if [ -f "Info.plist" ]; then
-        cp "Info.plist" "${AN}.app/Contents/"
-    fi
-    # Setup final archives
-    zip -ry "${AN}_macos.zip" "${AN}.app" && rm -rf "${AN}.app"
-    mv "${AN}_macos.zip" "${INPUT_RESULT_DIR}"/
-    # Export filename
-    echo "::set-output name=macos-filename::${AN}_macos.zip"
+    build_macos
     
     ### win32 build ###################################################
     
