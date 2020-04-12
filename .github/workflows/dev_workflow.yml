@@ -1,16 +1,16 @@
-name: Test
+# Identical to main testing workflow, but points only
+# at dev branch
+name: Testing[dev]
 on:
   push:
-    branches: [ master ]
-  pull_request:
-    branches: [ master ]
+    branches: [ dev ]
 jobs:
   # Build the Hello World test application
   build-hello_world:
     runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@v2
-    - uses: nhartland/love-build@master
+    - uses: nhartland/love-build@dev
       id: love-build
       with:
         app_name: 'hello_world'
@@ -34,7 +34,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@v2
-    - uses: nhartland/love-build@master
+    - uses: nhartland/love-build@dev
       id: love-build
       with:
         app_name: 'game_of_life'
