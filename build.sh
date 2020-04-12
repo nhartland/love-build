@@ -27,20 +27,20 @@ get_love_binaries() {
 # build_lovefile /path/to/new/lovefile.love
 # Dependencies are handled through loverocks
 build_lovefile(){
-    bl_target=$1
-    bl_build_dir=$(mktemp -d -t love-build-XXXXXX)
-    cp -a "${INPUT_SOURCE_DIR}/." "${bl_build_dir}"
+    blf_target=$1
+    blf_build_dir=$(mktemp -d -t love-build-XXXXXX)
+    cp -a "${INPUT_SOURCE_DIR}/." "${blf_build_dir}"
     (
         # Change to build dir (subshell to preserve cwd)
-        cd "${bl_build_dir}" 
+        cd "${blf_build_dir}" 
         # If the usingLoveRocks flag is set to true, build loverocks deps
         if [ "${INPUT_ENABLE_LOVEROCKS}" = true ]; then
             loverocks deps
         fi
         zip -r "application.love" ./* -x '*.git*'
     )
-    mv "${bl_build_dir}/application.love" "${bl_target}"
-    rm -rf "${bl_build_dir}"
+    mv "${blf_build_dir}/application.love" "${blf_target}"
+    rm -rf "${blf_build_dir}"
 }
 
 # Exports a zipped macOS application to the
@@ -53,9 +53,10 @@ build_macos(){
         cd "${bm_build_dir}" 
         # Download love for macos
         get_love_binaries "macos"
+        ls
 
         # Copy Data
-        cp "application.love" "love_macos/Contents/Resources/ "
+        cp "application.love" "love_macos/Contents/Resources/"
         # If a plist file is provided, use that
         if [ -f "${INPUT_SOURCE_DIR}/Info.plist" ]; then
             cp "${INPUT_SOURCE_DIR}/Info.plist" "love_macos/Contents/"
