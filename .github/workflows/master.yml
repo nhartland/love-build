@@ -1,8 +1,6 @@
-name: Test
+name: Testing
 on:
   push:
-    branches: [ master ]
-  pull_request:
     branches: [ master ]
 jobs:
   # Build the Hello World test application
@@ -15,7 +13,7 @@ jobs:
       with:
         app_name: 'hello_world'
         love_version: '11.3'
-        source_dir: ${{ github.workspace }}/tests/hello_world
+        source_dir: 'tests/hello_world'
     # Upload the resulting artifacts
     - uses: actions/upload-artifact@v1
       with:
@@ -43,8 +41,8 @@ jobs:
       with:
         app_name: 'game_of_life'
         love_version: '11.3'
+        source_dir: 'tests/game_of_life'
         enable_loverocks: true
-        source_dir: ${{ github.workspace }}/tests/game_of_life
     # Upload the resulting artifacts
     - uses: actions/upload-artifact@v1
       with:

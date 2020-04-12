@@ -16,16 +16,22 @@ provided, the default LÖVE `Info.plist` will be used.
 
 ### Basic Configuration
 
-To build a LÖVE 11.3 project with the `main.lua` at the root of your repository,
-use the following job steps to check out and build your project.
+To build and upload a LÖVE 11.3 project with the `main.lua` at the root of your
+repository, use the following job steps:
 
 ```yaml
 steps:
 - uses: actions/checkout@v2
+# Build the applications
 - uses: nhartland/love-build@v1-beta
   with:
    app_name: 'hello_world'
    love_version: '11.3'
+# Upload the built applications
+- uses: actions/upload-artifact@v1
+  with:
+    name: built-applications
+    path: 'release'
 ```
 
 ### Extended configuration
@@ -40,20 +46,18 @@ steps:
     # runs `loverocks deps` in the source_dir to build luarocks dependencies.
     enable_loverocks: true 
     # Use when the `main.lua` is in a subdirectory of your repository (here in `src/love`).
-    source_dir: ${{ github.workspace }}/src/love
-    # Specifies the location for temporary build files (by default `love-build` in your repository root.
-    # You should only need to change this if you performing multiple application builds in one job.
-    build_dir: ${{ github.home }}/nondefault_builddir
-    # Specifies the output location for the distributables, by default the repository root directory.
-    result_dir: ${{ github.workspace }}/nondefault_result_dir
+    source_dir: 'src/love'
+    # Specifies the output location for the distributables, by default 'release'.
+    result_dir: 'nondefault_result_dir'
 ```
 
 To see the full options specification please refer to the [action.yml](action.yml).
 
 ### Produced artifacts
 
-The built distributables are located in the `results_dir` path, by default the root of your repository.
-This action returns three output variables specifying the filenames relative to `results_dir`.
+The built applications are located in the `results_dir` path, by default the
+root of your repository. This action returns four output variables specifying
+the filenames relative to the working directory.
 
 ```yaml
   love-filename: 
@@ -66,7 +70,9 @@ This action returns three output variables specifying the filenames relative to 
     description: 'Filename of built macos application'
 ```
 
-If `results_dir` is left as default (the GitHub working directory), the produced artifacts can therefore be uploaded with the following steps:
+The applications can therefore be built and individually uploaded with the
+following steps: 
+
 ```yaml
 steps:
 - uses: actions/checkout@v2
@@ -95,8 +101,8 @@ steps:
 
 ### Working Examples
 
-In this directory are two test cases, a basic "Hello World" with no 
-dependencies and a Game of Life simulation using the
+In this directory are two test cases, a basic "Hello World" with no dependencies
+and a Game of Life simulation using the
 [forma](https://github.com/nhartland/forma) package installed via `loverocks`.
 
 - [Test Applications](tests)
