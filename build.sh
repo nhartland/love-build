@@ -6,23 +6,44 @@ if [ "${GITHUB_REPOSITORY}" = "nhartland/love-build" ]; then
     set -x
 fi
 
-get_love_binaries() {
-    VERS=$1
-    ARCH=$2
-    ROOT_URL="https://github.com/love2d/love/releases/download"
-    wget "${ROOT_URL}/${VERS}/love-${VERS}-${ARCH}.zip"
-    unzip "love-${LV}-${ARCH}.zip" -d "love_${ARCH}"
-    rm "love-${LV}-${ARCH}.zip" 
-}
-
-main() {
-    
+check_environment() {
     : "${INPUT_APP_NAME:?'Error: application name unset'}"
     : "${INPUT_LOVE_VERSION:?'Error: love version unset'}"
     : "${INPUT_SOURCE_DIR:?'Error: source directory unset'}"
     : "${INPUT_RESULT_DIR:?'Error: result directory unset'}"
     : "${INPUT_ENABLE_LOVEROCKS:?'Error: loverocks flag unset'}"
+}
+
+get_love_binaries() {
+    version=$1
+    arch=$2
+    root_url="https://github.com/love2d/love/releases/download"
+    wget "${root_url}/${version}/love-${version}-${arch}.zip"
+    unzip "love-${version}-${arch}.zip" -d "love_${arch}"
+    rm "love-${version}-${arch}.zip" 
+}
+
+build_lovefile(){
+    target=$1
+    build_dir=$(mktemp -d -t love-build-XXXXXX)
+    cp -a "${INPUT_SOURCE_DIR}/." "${build_dir}"
+    (
+        # Change to build dir (subshell to preserve cwd)
+        cd "${build_dir}" 
+        # If the usingLoveRocks flag is set to true, build loverocks deps
+        if [ "${INPUT_ENABLE_LOVEROCKS}" = true ]; then
+            loverocks deps
+        fi
+        zip -r "application.love" ./* -x '*.git*'
+    )
+    mv "${build_dir}/application.love" "${target}"
+    rm -rf "${build_dir}"
+}
+
+main() {
     
+    check_environment    
+
     # Shorten variables a little
     AN=${INPUT_APP_NAME}
     LV=${INPUT_LOVE_VERSION}
