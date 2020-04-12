@@ -6,6 +6,15 @@ if [ "${GITHUB_REPOSITORY}" = "nhartland/love-build" ]; then
     set -x
 fi
 
+ROOT_URL="https://github.com/love2d/love/releases/download"
+get_love_binaries() {
+    VERS=$1
+    ARCH=$2
+    wget "${ROOT_URL}/{$VERS}/love-${VERS}-${ARCH}.zip"
+    unzip "love-${LV}-${ARCH}.zip"
+    rm "love-${LV}-${ARCH}.zip" 
+}
+
 : "${INPUT_APP_NAME:?'Error: application name unset'}"
 : "${INPUT_LOVE_VERSION:?'Error: love version unset'}"
 : "${INPUT_SOURCE_DIR:?'Error: source directory unset'}"
@@ -29,7 +38,6 @@ mkdir -p "${INPUT_RESULT_DIR}"
 
 # Change CWD to the build directory and copy source files
 BUILD_DIR=$(mktemp -d -t love-build-XXXXXX)
-echo "Build directory: ${BUILD_DIR}"
 cp -a "${INPUT_SOURCE_DIR}/." "${BUILD_DIR}"
 cd "${BUILD_DIR}"
 
@@ -49,8 +57,7 @@ echo "::set-output name=love-filename::${AN}.love"
 ### macos build ###################################################
 
 # Download love for macos
-wget "https://bitbucket.org/rude/love/downloads/love-${LV}-macos.zip"
-unzip "love-${LV}-macos.zip" && rm "love-${LV}-macos.zip"
+get_love_binaries "${LV}" "macos"
 # Copy Data
 cp "${AN}.love" love.app/Contents/Resources/ 
 # If a plist file is provided, use that
@@ -67,8 +74,7 @@ echo "::set-output name=macos-filename::${AN}_macos.zip"
 ### win32 build ###################################################
 
 # Download love for windows
-wget "https://bitbucket.org/rude/love/downloads/love-${LV}-win32.zip"
-unzip -j "love-${LV}-win32.zip" -d "${AN}_win32" && rm "love-${LV}-win32.zip" 
+get_love_binaries "${LV}" "win32"
 # Copy data
 cat "${AN}_win32/love.exe" "${AN}.love" > "${AN}_win32/${AN}.exe"
 # Delete unneeded files
