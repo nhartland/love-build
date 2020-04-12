@@ -19,8 +19,20 @@ jobs:
     # Upload the resulting artifacts
     - uses: actions/upload-artifact@v1
       with:
-        name: hw-build
-        path: ${{ github.workspace }}
+        name: hw_macos-build
+        path: ${{ steps.love-build.outputs.macos-filename }}
+    - uses: actions/upload-artifact@v1
+      with:
+        name: hw_win32-build
+        path: ${{ steps.love-build.outputs.win32-filename }}
+    - uses: actions/upload-artifact@v1
+      with:
+        name: hw_win64-build
+        path: ${{ steps.love-build.outputs.win64-filename }}
+    - uses: actions/upload-artifact@v1
+      with:
+        name: hw_love-build
+        path: ${{ steps.love-build.outputs.love-filename }}
   # Build the Game of Life test application
   build-game_of_life:
     runs-on: ubuntu-latest
