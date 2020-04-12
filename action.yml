@@ -20,9 +20,6 @@ inputs:
   source_dir:
     description: 'Directory containing `main.lua`. By default the GA workspace (root of cloned repository).'
     default: ${{ github.workspace }}
-  build_dir:
-    description: 'Directory where the intermediate build files are stored. By default `$HOME/love-build`. You should only need to change this when running multiple builds in the same job.' 
-    default: ${{ github.home }}/love-build
   result_dir:
     description: 'Directory where the built distributables should be located. By default the GA workspace (root of cloned repository).'
     default: ${{ github.workspace }}

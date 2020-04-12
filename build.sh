@@ -9,7 +9,6 @@ fi
 : "${INPUT_APP_NAME:?'Error: application name unset'}"
 : "${INPUT_LOVE_VERSION:?'Error: love version unset'}"
 : "${INPUT_SOURCE_DIR:?'Error: source directory unset'}"
-: "${INPUT_BUILD_DIR:?'Error: build directory unset'}"
 : "${INPUT_RESULT_DIR:?'Error: result directory unset'}"
 : "${INPUT_ENABLE_LOVEROCKS:?'Error: loverocks flag unset'}"
 
@@ -22,7 +21,6 @@ echo "App name: ${AN}"
 echo "LOVE version: ${LV}"
 echo "---------------------------"
 echo "Source directory: ${INPUT_SOURCE_DIR}"
-echo "Build directory: ${INPUT_BUILD_DIR}"
 echo "Result directory: ${INPUT_RESULT_DIR}"
 echo "---------------------------"
 
@@ -30,9 +28,10 @@ echo "---------------------------"
 mkdir -p "${INPUT_RESULT_DIR}"
 
 # Change CWD to the build directory and copy source files
-mkdir -p "${INPUT_BUILD_DIR}"
-cp -a "${INPUT_SOURCE_DIR}/." "${INPUT_BUILD_DIR}"
-cd "${INPUT_BUILD_DIR}"
+BUILD_DIR=$(mktemp -d -t love-build)
+echo "Build directory: ${BUILD_DIR}"
+cp -a "${INPUT_SOURCE_DIR}/." "${BUILD_DIR}"
+cd "${BUILD_DIR}"
 
 ### Dependencies #################################################
 

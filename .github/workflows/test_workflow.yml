@@ -1,7 +1,7 @@
 name: Test
 on:
   push:
-    branches: [ master ]
+    branches: [ master, dev ]
   pull_request:
     branches: [ master ]
 jobs:
@@ -10,7 +10,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@v2
-    - uses: nhartland/love-build@master
+    - uses: nhartland/love-build@${GITHUB_REF##*/}
       id: love-build
       with:
         app_name: 'hello_world'
@@ -34,7 +34,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@v2
-    - uses: nhartland/love-build@master
+    - uses: nhartland/love-build@${GITHUB_REF##*/}
       id: love-build
       with:
         app_name: 'game_of_life'
