@@ -27,6 +27,10 @@ jobs:
         path: ${{ steps.love-build.outputs.win32-filename }}
     - uses: actions/upload-artifact@v1
       with:
+        name: hw_win64-build
+        path: ${{ steps.love-build.outputs.win64-filename }}
+    - uses: actions/upload-artifact@v1
+      with:
         name: hw_love-build
         path: ${{ steps.love-build.outputs.love-filename }}
   # Build the Game of Life test application
@@ -50,6 +54,10 @@ jobs:
       with:
         name: gol_win32-build
         path: ${{ steps.love-build.outputs.win32-filename }}
+    - uses: actions/upload-artifact@v1
+      with:
+        name: gol_win64-build
+        path: ${{ steps.love-build.outputs.win64-filename }}
     - uses: actions/upload-artifact@v1
       with:
         name: gol_love-build

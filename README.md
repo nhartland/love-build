@@ -60,6 +60,8 @@ This action returns three output variables specifying the filenames relative to 
     description: 'Filename of built love file'
   win32-filename: 
     description: 'Filename of built win32 application'
+  win64-filename: 
+    description: 'Filename of built win64 application'
   macos-filename: 
     description: 'Filename of built macos application'
 ```
@@ -81,6 +83,10 @@ steps:
   with:
     name: win32-build
     path: ${{ steps.love-build.outputs.win32-filename }}
+- uses: actions/upload-artifact@v1
+  with:
+    name: win64-build
+    path: ${{ steps.love-build.outputs.win64-filename }}
 - uses: actions/upload-artifact@v1
   with:
     name: love-build
