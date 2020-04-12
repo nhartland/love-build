@@ -12,10 +12,6 @@ check_environment() {
     : "${INPUT_SOURCE_DIR:?'Error: source directory unset'}"
     : "${INPUT_RESULT_DIR:?'Error: result directory unset'}"
     : "${INPUT_ENABLE_LOVEROCKS:?'Error: loverocks flag unset'}"
-
-    # Append workspace dir to relevant paths
-    SOURCE_DIR=${GITHUB_WORKSPACE}/${INPUT_SOURCE_DIR}
-    RESULT_DIR=${GITHUB_WORKSPACE}/${INPUT_RESULT_DIR}
 }
 
 # Fetches the love binaries from GitHub, takes architecture (macos/win32/win64)
@@ -119,9 +115,13 @@ main() {
     echo "Source directory: ${INPUT_SOURCE_DIR}"
     echo "Result directory: ${INPUT_RESULT_DIR}"
     echo "---------------------------"
+
+    # Append workspace dir to relevant paths
+    SOURCE_DIR=${GITHUB_WORKSPACE}/${INPUT_SOURCE_DIR}
+    RESULT_DIR=${GITHUB_WORKSPACE}/${INPUT_RESULT_DIR}
     
     # Make results directory if it does not exist
-    mkdir -p "${INPUT_RESULT_DIR}"
+    mkdir -p "${RESULT_DIR}"
     
     ### LOVE build ####################################################
     
