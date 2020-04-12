@@ -14,6 +14,8 @@ check_environment() {
     : "${INPUT_ENABLE_LOVEROCKS:?'Error: loverocks flag unset'}"
 }
 
+# Fetches the love binaries from GitHub, takes architecture (macos/win32/win64)
+# as an argument.
 get_love_binaries() {
     glb_arch=$1
     glb_root_url="https://github.com/love2d/love/releases/download"
@@ -22,9 +24,9 @@ get_love_binaries() {
     rm "love-${INPUT_LOVE_VERSION}-${glb_arch}.zip" 
 }
 
-# Exports a .love file for the application to the
-# path specified as an argument. e.g
-# build_lovefile /path/to/new/lovefile.love
+# Exports a .love file for the application to the path specified as an
+# argument. e.g 
+#     build_lovefile /path/to/new/lovefile.love
 # Dependencies are handled through loverocks
 build_lovefile(){
     blf_target=$1
@@ -43,8 +45,7 @@ build_lovefile(){
     rm -rf "${blf_build_dir}"
 }
 
-# Exports a zipped macOS application to the
-# result directory.
+# Exports a zipped macOS application to the result directory.
 build_macos(){
     bm_target="${INPUT_APP_NAME}_macos"
     bm_build_dir=$(mktemp -d -t love-build-XXXXXX)
@@ -71,19 +72,20 @@ build_macos(){
     rm -rf "${bm_build_dir}"
 }
 
-# Exports a zipped win32 application to the
-# result directory.
+# Exports a zipped win32 application to the result directory.
+# Takes the architecure as an argument (win32/win64)
 build_windows(){
-    bw_target="${INPUT_APP_NAME}_win32"
+    bw_arch=$1
+    bw_target="${INPUT_APP_NAME}_${bw_arch}"
     bw_build_dir=$(mktemp -d -t love-build-XXXXXX)
     build_lovefile "${bw_build_dir}/application.love"
     (
         # Change to build dir (subshell to preserve cwd)
         cd "${bw_build_dir}" 
         # Download love for macos
-        get_love_binaries "win32"
+        get_love_binaries "${bw_arch}"
 
-        mv "love-${INPUT_LOVE_VERSION}-win32" "${INPUT_APP_NAME}_win32"
+        mv "love-${INPUT_LOVE_VERSION}-${bw_arch}" "${INPUT_APP_NAME}_${bw_arch}"
 
         # Copy data
         cat "${bw_target}/love.exe" "application.love" > "${bw_target}/${INPUT_APP_NAME}.exe"
@@ -98,7 +100,7 @@ build_windows(){
         zip -ry "${bw_target}.zip" "${bw_target}"
     )
     mv "${bw_build_dir}/${bw_target}.zip" "${INPUT_RESULT_DIR}"/
-    echo "::set-output name=win32-filename::${bw_target}.zip"
+    echo "::set-output name=${bw_arch}-filename::${bw_target}.zip"
     rm -rf "${bw_build_dir}"
 }
 
@@ -122,10 +124,12 @@ main() {
     build_lovefile "${INPUT_RESULT_DIR}/${INPUT_APP_NAME}.love"
     echo "::set-output name=love-filename::${INPUT_APP_NAME}.love"
     
-    ### macos build ###################################################
+    ### macOS/win builds ##############################################
     
     build_macos
-    build_windows 
+    build_windows win32
+    build_windows win64
+
 }
 
 
