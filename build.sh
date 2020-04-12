@@ -99,8 +99,7 @@ build_windows(){
         # Setup final archive
         zip -ry "${bw_target}.zip" "${bw_target}"
     )
-    ls "${bw_build_dir}"
-    mv "${bw_build_dir}/${bw_target}.zip" "${INPUT_RESULT_DIR}"/
+    mv "${bw_build_dir}/${bw_target}.zip" "${RESULT_DIR}"/
     echo "::set-output name=${bw_arch}-filename::${INPUT_RESULT_DIR}/${bw_target}.zip"
     rm -rf "${bw_build_dir}"
 }
