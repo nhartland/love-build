@@ -11,7 +11,6 @@ check_environment() {
     : "${INPUT_LOVE_VERSION:?'Error: love version unset'}"
     : "${INPUT_SOURCE_DIR:?'Error: source directory unset'}"
     : "${INPUT_RESULT_DIR:?'Error: result directory unset'}"
-    : "${INPUT_ENABLE_LOVEROCKS:?'Error: loverocks flag unset'}"
 }
 
 # Fetches the love binaries from GitHub, takes architecture (macos/win32/win64)
@@ -27,7 +26,9 @@ get_love_binaries() {
 # Exports a .love file for the application to the path specified as an
 # argument. e.g 
 #     build_lovefile /path/to/new/lovefile.love
-# Dependencies are handled through loverocks
+# Dependencies are handled via luarocks, if the INPUT_DEPENDENCIES
+# environmental variable is set, we use luarocks to install a local rocks
+# tree to `lb_modules` and insert this path into the love require path.
 build_lovefile(){
     blf_target=$1
     blf_build_dir=$(mktemp -d -t love-build-XXXXXX)
@@ -35,9 +36,14 @@ build_lovefile(){
     (
         # Change to build dir (subshell to preserve cwd)
         cd "${blf_build_dir}" 
-        # If the usingLoveRocks flag is set to true, build loverocks deps
-        if [ "${INPUT_ENABLE_LOVEROCKS}" = true ]; then
-            loverocks deps
+        # If the specified dependency file exists, use it 
+        if [ -n "${INPUT_DEPENDENCIES}" ]; then
+            depsfile="${GITHUB_WORKSPACE}/${INPUT_DEPENDENCIES}"
+            # Build the dependencies into a local luarocks tree
+            luarocks make "${depsfile}" --lua-version=5.1 --tree lb_modules 
+            # Add custom require paths
+            cat /love-build/module_loader.lua main.lua > new_main.lua
+            mv new_main.lua main.lua
         fi
         zip -r "application.love" ./* -x '*.git*'
     )

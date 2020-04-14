@@ -14,10 +14,9 @@ inputs:
     description: 'Version of LÖVE to be used in building the application'
     default: '11.3'
     required: true
-  enable_loverocks:
-    description: 'Flag activating loverocks support'
-    default: false
-    required: true
+  dependencies:
+    description: 'Path to dependencies rockspec relative to GitHub workspace'
+    required: false
   source_dir:
     description: 'Path in the repository to the subdirectory containing `main.lua`. By default the repo root'
     default: ""
