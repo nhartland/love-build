@@ -9,8 +9,6 @@ fi
 check_environment() {
     : "${INPUT_APP_NAME:?'Error: application name unset'}"
     : "${INPUT_LOVE_VERSION:?'Error: love version unset'}"
-    : "${INPUT_SOURCE_DIR:?'Error: source directory unset'}"
-    : "${INPUT_RESULT_DIR:?'Error: result directory unset'}"
 }
 
 # Fetches the love binaries from GitHub, takes architecture (macos/win32/win64)
