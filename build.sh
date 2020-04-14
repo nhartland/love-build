@@ -50,6 +50,7 @@ build_macos(){
     bm_target="${INPUT_APP_NAME}_macos"
     bm_build_dir=$(mktemp -d -t love-build-XXXXXX)
     build_lovefile "${bm_build_dir}/application.love"
+    lua /love-build/rockspec-template.lua
     (
         # Change to build dir (subshell to preserve cwd)
         cd "${bm_build_dir}" 
