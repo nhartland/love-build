@@ -1,6 +1,6 @@
-FROM alpine:3.11.5
+FROM debian:buster-slim
 # Install general dependencies
-RUN  apk add --no-cache zip git luarocks5.1
+RUN apt install luarocks
 
 # Copy and setup entrypoint
 COPY build.sh /love-build/build.sh
