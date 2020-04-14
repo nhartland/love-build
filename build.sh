@@ -40,7 +40,7 @@ build_lovefile(){
             # Build the dependencies into a local luarocks tree
             luarocks make dependencies-1-1.rockspec --lua-version=5.1 --tree lb_modules 
             # Add custom require paths
-            cat /lovebuild/module_loader.lua main.lua > new_main.lua
+            cat /love-build/module_loader.lua main.lua > new_main.lua
             mv new_main.lua main.lua
         fi
         zip -r "application.love" ./* -x '*.git*'
