@@ -38,7 +38,10 @@ build_lovefile(){
         # If the usingLoveRocks flag is set to true, build loverocks deps
         if [ "${INPUT_ENABLE_LOVEROCKS}" = true ]; then
             # Build the dependencies into a local luarocks tree
-            luarocks make dependencies-1-1.rockspec --lua-version=5.1 --tree ./lua_modules
+            luarocks make dependencies-1-1.rockspec --lua-version=5.1 --tree lb_modules 
+            # Add custom require paths
+            cat /lovebuild/module_loader.lua main.lua > new_main.lua
+            mv new_main.lua main.lua
         fi
         zip -r "application.love" ./* -x '*.git*'
     )
