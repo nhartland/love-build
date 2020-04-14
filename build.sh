@@ -11,7 +11,6 @@ check_environment() {
     : "${INPUT_LOVE_VERSION:?'Error: love version unset'}"
     : "${INPUT_SOURCE_DIR:?'Error: source directory unset'}"
     : "${INPUT_RESULT_DIR:?'Error: result directory unset'}"
-    : "${INPUT_ENABLE_LOVEROCKS:?'Error: loverocks flag unset'}"
 }
 
 # Fetches the love binaries from GitHub, takes architecture (macos/win32/win64)
