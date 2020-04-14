@@ -1,8 +1,6 @@
-# Identical to main testing workflow, but points only
-# at dev branch
 name: Testing[dev]
 on:
-  pull_request:
+  push:
     branches: [ dev ]
 jobs:
   # Build the Hello World test application
