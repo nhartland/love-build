@@ -19,7 +19,7 @@ inputs:
     required: false
   source_dir:
     description: 'Path in the repository to the subdirectory containing `main.lua`. By default the repo root'
-    default: ""
+    default: "./"
     required: true
   result_dir:
     description: 'Directory in the GitHub workspace where the built distributables should be located'

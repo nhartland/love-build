@@ -9,6 +9,11 @@ fi
 check_environment() {
     : "${INPUT_APP_NAME:?'Error: application name unset'}"
     : "${INPUT_LOVE_VERSION:?'Error: love version unset'}"
+    # Check for presence of main.lua
+    if [ ! -f "${INPUT_SOURCE_DIR}/main.lua" ]; then
+        echo "Error: Cannot find main.lua in the specified source directory"
+        exit 1
+    fi
 }
 
 # Fetches the love binaries from GitHub, takes architecture (macos/win32/win64)
