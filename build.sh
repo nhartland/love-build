@@ -36,9 +36,10 @@ build_lovefile(){
         # Change to build dir (subshell to preserve cwd)
         cd "${blf_build_dir}" 
         # If the usingLoveRocks flag is set to true, build loverocks deps
-        if [ "${INPUT_ENABLE_LOVEROCKS}" = true ]; then
+        if [ -f "${INPUT_DEPENDENCIES}" ]; then
+            depsfile="${GITHUB_WORKSPACE}/${INPUT_DEPENDENCIES}"
             # Build the dependencies into a local luarocks tree
-            luarocks make dependencies-1-1.rockspec --lua-version=5.1 --tree lb_modules 
+            luarocks make "${depsfile}" --lua-version=5.1 --tree lb_modules 
             # Add custom require paths
             cat /love-build/module_loader.lua main.lua > new_main.lua
             mv new_main.lua main.lua
