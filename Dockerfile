@@ -1,6 +1,7 @@
 FROM debian:buster-slim
 
 # Install general dependencies
+RUN apt update
 RUN apt install lua build-essential libreadline-dev
 
 # Fetch and build luarocks-3
