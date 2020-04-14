@@ -26,7 +26,9 @@ get_love_binaries() {
 # Exports a .love file for the application to the path specified as an
 # argument. e.g 
 #     build_lovefile /path/to/new/lovefile.love
-# Dependencies are handled through loverocks
+# Dependencies are handled via luarocks, if the INPUT_DEPENDENCIES
+# environmental variable is set, we use luarocks to install a local rocks
+# tree to `lb_modules` and insert this path into the love require path.
 build_lovefile(){
     blf_target=$1
     blf_build_dir=$(mktemp -d -t love-build-XXXXXX)

@@ -1,4 +1,6 @@
-name: Testing
+# Identical to main testing workflow, but points only
+# at dev branch
+name: Testing[master]
 on:
   push:
     branches: [ master ]
@@ -42,7 +44,7 @@ jobs:
         app_name: 'game_of_life'
         love_version: '11.3'
         source_dir: 'tests/game_of_life'
-        enable_loverocks: true
+        dependencies: 'tests/game_of_life/dependencies-1-1.rockspec'
     # Upload the resulting artifacts
     - uses: actions/upload-artifact@v1
       with:

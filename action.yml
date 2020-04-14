@@ -15,7 +15,7 @@ inputs:
     default: '11.3'
     required: true
   dependencies:
-    description: 'Path to dependencies rockspec in source_dir'
+    description: 'Path to dependencies rockspec relative to GitHub workspace'
     required: false
   source_dir:
     description: 'Path in the repository to the subdirectory containing `main.lua`. By default the repo root'

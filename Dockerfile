@@ -9,7 +9,7 @@ RUN apt-get install -q -y lua5.1 \
                           wget \
                           zip
 
-# Fetch and build luarocks-3
+# Fetch and build luarocks-3.3.1
 RUN wget https://luarocks.org/releases/luarocks-3.3.1.tar.gz && \
     tar zxpf luarocks-3.3.1.tar.gz
 RUN cd luarocks-3.3.1 && \

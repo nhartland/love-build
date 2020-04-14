@@ -6,9 +6,9 @@ GitHub Action for building a [LÖVE](https://love2d.org/) Project.
 
 This action produces a LÖVE file, along with macOS and Windows executable
 packages for a LÖVE project. For projects making use of
-[luarocks](https://luarocks.org/) packages, this build action supports
-[loverocks](https://github.com/Alloyed/loverocks) when a `conf.lua` is supplied
-in the source directory and the `enable_loverocks` input flag is set to true.
+[luarocks](https://luarocks.org/) packages, this build action supports the
+bundling of dependencies via a user-defined
+[rockspec](https://github.com/luarocks/luarocks/wiki/Rockspec-format). 
 
 For macOS application configuration, you can supply an `Info.plist` file in the
 source directory which will be copied into the built application. If not
@@ -43,13 +43,13 @@ steps:
   with:
     app_name: 'hello_world'
     love_version: '11.3'
-    # Sets up luarocks dependencies according to provided rockspec
-    # Use the path relative to your repository root.
-    dependencies: 'dependencies-1-1.rockspec'
     # Use when the `main.lua` is in a subdirectory of your repository (here in `src/love`).
     source_dir: 'src/love'
     # Specifies the output location for the distributables, by default 'release'.
     result_dir: 'nondefault_result_dir'
+    # Sets up luarocks dependencies according to provided rockspec
+    # Use the path relative to your repository root.
+    dependencies: 'dependencies-1-1.rockspec'
 ```
 
 To see the full options specification please refer to the [action.yml](action.yml).
@@ -100,14 +100,48 @@ steps:
     path: ${{ steps.love-build.outputs.love-filename }}
 ```
 
+### LuaRocks dependencies
+
+**Important Note:** LÖVE Build can only handle pure Lua dependencies and cannot
+correctly build native libraries.
+
+You can specify the dependencies of your LÖVE application using a rockspec.
+These dependencies will be bundled in with the packaged LÖVE executables
+and the required include paths added to the LÖVE path by means of prepending
+[module_loader.lua](module_loader.lua) to your `main.lua`. The LuaRocks
+integration depends only on the LuaRocks command line utilities and
+not on the LuaRocks API.
+
+The rockspec doesn't need to specify anything about your application other
+than the dependencies. For example:
+
+```lua
+-- dependencies-1-1.rockspec
+package = "dependencies"
+version = "1-1"
+source = {
+    url = 'none' -- Not required for local build
+}
+-- List your required dependencies here in the standard
+-- rockspec format
+dependencies = {
+   "etlua ~> 1.3",
+   "argparse ~> 0.5",
+   "loadconf >= 0.3.4, < 0.4"
+}
+build = {
+   type = "none"
+}
+```
+
 ### Working Examples
 
-In this directory are two test cases, a basic "Hello World" with no dependencies
-and a Game of Life simulation using the
-[forma](https://github.com/nhartland/forma) package installed via `loverocks`.
+In this directory are two test cases, a basic "Hello World" with no
+dependencies, a Game of Life simulation showing how *LuaRocks* dependencies
+are bundled. 
 
 - [Test Applications](tests)
-- [Test Workflow](.github/workflows/test_workflow.yml)
+- [Test Workflow](.github/workflows/master.yml)
 
 ### Limitations
 
