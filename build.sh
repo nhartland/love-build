@@ -37,7 +37,8 @@ build_lovefile(){
         cd "${blf_build_dir}" 
         # If the usingLoveRocks flag is set to true, build loverocks deps
         if [ "${INPUT_ENABLE_LOVEROCKS}" = true ]; then
-            loverocks deps
+            # Build the dependencies into a local luarocks tree
+            luarocks-5.1 make dependencies-1-1.rockspec --lua-version=5.1 --tree ./lua_modules
         fi
         zip -r "application.love" ./* -x '*.git*'
     )
@@ -50,7 +51,6 @@ build_macos(){
     bm_target="${INPUT_APP_NAME}_macos"
     bm_build_dir=$(mktemp -d -t love-build-XXXXXX)
     build_lovefile "${bm_build_dir}/application.love"
-    lua /love-build/rockspec-template.lua
     (
         # Change to build dir (subshell to preserve cwd)
         cd "${bm_build_dir}" 
