@@ -43,8 +43,9 @@ steps:
   with:
     app_name: 'hello_world'
     love_version: '11.3'
-    # runs `loverocks deps` in the source_dir to build luarocks dependencies.
-    enable_loverocks: true 
+    # Sets up luarocks dependencies according to provided rockspec
+    # Use the path relative to your repository root.
+    dependencies: 'dependencies-1-1.rockspec'
     # Use when the `main.lua` is in a subdirectory of your repository (here in `src/love`).
     source_dir: 'src/love'
     # Specifies the output location for the distributables, by default 'release'.
