@@ -137,7 +137,7 @@ build = {
 ### Working Examples
 
 In this directory are two test cases, a basic "Hello World" with no
-dependencies, a Game of Life simulation showing how *LuaRocks* dependencies
+dependencies, and a Game of Life simulation showing how LuaRocks dependencies
 are bundled. 
 
 - [Test Applications](tests)
