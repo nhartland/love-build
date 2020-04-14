@@ -1,0 +1,64 @@
+# Identical to main testing workflow, but points only
+# at dev branch
+name: Testing[master]
+on:
+  push:
+    branches: [ master ]
+jobs:
+  # Build the Hello World test application
+  build-hello_world:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v2
+    - uses: nhartland/love-build@master
+      id: love-build
+      with:
+        app_name: 'hello_world'
+        love_version: '11.3'
+        source_dir: 'tests/hello_world'
+    # Upload the resulting artifacts
+    - uses: actions/upload-artifact@v1
+      with:
+        name: hw_macos-build
+        path: ${{ steps.love-build.outputs.macos-filename }}
+    - uses: actions/upload-artifact@v1
+      with:
+        name: hw_win32-build
+        path: ${{ steps.love-build.outputs.win32-filename }}
+    - uses: actions/upload-artifact@v1
+      with:
+        name: hw_win64-build
+        path: ${{ steps.love-build.outputs.win64-filename }}
+    - uses: actions/upload-artifact@v1
+      with:
+        name: hw_love-build
+        path: ${{ steps.love-build.outputs.love-filename }}
+  # Build the Game of Life test application
+  build-game_of_life:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v2
+    - uses: nhartland/love-build@master
+      id: love-build
+      with:
+        app_name: 'game_of_life'
+        love_version: '11.3'
+        source_dir: 'tests/game_of_life'
+        dependencies: 'tests/game_of_life/dependencies-1-1.rockspec'
+    # Upload the resulting artifacts
+    - uses: actions/upload-artifact@v1
+      with:
+        name: gol_macos-build
+        path: ${{ steps.love-build.outputs.macos-filename }}
+    - uses: actions/upload-artifact@v1
+      with:
+        name: gol_win32-build
+        path: ${{ steps.love-build.outputs.win32-filename }}
+    - uses: actions/upload-artifact@v1
+      with:
+        name: gol_win64-build
+        path: ${{ steps.love-build.outputs.win64-filename }}
+    - uses: actions/upload-artifact@v1
+      with:
+        name: gol_love-build
+        path: ${{ steps.love-build.outputs.love-filename }}
