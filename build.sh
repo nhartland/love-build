@@ -43,7 +43,7 @@ build_lovefile(){
         if [ -n "${INPUT_DEPENDENCIES}" ]; then
             depsfile="${GITHUB_WORKSPACE}/${INPUT_DEPENDENCIES}"
             # Build the dependencies into a local luarocks tree
-            luarocks make "${depsfile}" --lua-version=5.1 --tree lb_modules 
+            luarocks make "${depsfile}" --deps-mode one --lua-version=5.1 --tree lb_modules 
             # Add custom require paths
             cat /love-build/module_loader.lua main.lua > new_main.lua
             mv new_main.lua main.lua
