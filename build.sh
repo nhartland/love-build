@@ -63,8 +63,7 @@ build_macos(){
         # Change to build dir (subshell to preserve cwd)
         cd "${bm_build_dir}" 
         # Download love for macos
-        if  [[ "$INPUT_LOVE_VERSION" == "0.*" ]] ;
-        then
+        if [ "${INPUT_LOVE_VERSION}" == "0.*"]; then
             get_love_binaries "macosx-x64"
         else
             get_love_binaries "macos"
