@@ -63,7 +63,11 @@ build_macos(){
         # Change to build dir (subshell to preserve cwd)
         cd "${bm_build_dir}" 
         # Download love for macos
-        get_love_binaries "macos"
+        if [ $(echo $INPUT_LOVE_VERSION | cut -c1-1) = 0 ]; then
+            get_love_binaries "macosx-x64"
+        else
+            get_love_binaries "macos"
+        fi
 
         # Copy Data
         cp "application.love" "love.app/Contents/Resources/"
