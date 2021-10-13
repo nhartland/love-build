@@ -48,6 +48,8 @@ build_lovefile(){
             cat /love-build/module_loader.lua main.lua > new_main.lua
             mv new_main.lua main.lua
         fi
+        echo $PWD
+        ls -lah
         zip -r "application.love" ./* -x '*.git*' "${INPUT_RESULT_DIR}/\*"
     )
     mv "${blf_build_dir}/application.love" "${blf_target}"
@@ -127,6 +129,7 @@ main() {
     echo "---------------------------"
     echo "Source directory: ${INPUT_SOURCE_DIR}"
     echo "Result directory: ${INPUT_RESULT_DIR}"
+    echo "GITHUB_WORKSPACE: ${GITHUB_WORKSPACE}"
     echo "---------------------------"
 
     # Append workspace dir to relevant paths
@@ -134,6 +137,7 @@ main() {
     RESULT_DIR=${GITHUB_WORKSPACE}/${INPUT_RESULT_DIR}
     
     # Make results directory if it does not exist
+    echo "current dir: ${PWD}"
     mkdir -p "${RESULT_DIR}"
     
     ### LOVE build ####################################################
