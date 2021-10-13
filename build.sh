@@ -48,9 +48,10 @@ build_lovefile(){
             cat /love-build/module_loader.lua main.lua > new_main.lua
             mv new_main.lua main.lua
         fi
+        echo "building lovefile"
         echo $PWD
         ls -lah
-        zip -r "application.love" ./* -x '*.git*' "${INPUT_RESULT_DIR}/\*"
+        zip -r "application.love" ./* -x '*.git*' "${INPUT_RESULT_DIR}/*"
     )
     mv "${blf_build_dir}/application.love" "${blf_target}"
     rm -rf "${blf_build_dir}"
@@ -80,7 +81,7 @@ build_macos(){
 
         # Setup final archives
         mv "love.app" "${bm_target}.app"
-        zip -ry "${bm_target}.zip" "${bm_target}.app" -x "${INPUT_RESULT_DIR}/\*"
+        zip -ry "${bm_target}.zip" "${bm_target}.app" -x "${INPUT_RESULT_DIR}/*"
     )
     mv "${bm_build_dir}/${bm_target}.zip" "${RESULT_DIR}"
     echo "::set-output name=macos-filename::${INPUT_RESULT_DIR}/${bm_target}.zip"
@@ -110,9 +111,13 @@ build_windows(){
         rm "${bw_target}/love.ico"
         rm "${bw_target}/changes.txt"
         rm "${bw_target}/readme.txt"
+        
+        echo "building windows"
+        echo $PWD
+        ls -lah
 
         # Setup final archive
-        zip -ry "${bw_target}.zip" "${bw_target}" -x "${INPUT_RESULT_DIR}/\*"
+        zip -ry "${bw_target}.zip" "${bw_target}" -x "${INPUT_RESULT_DIR}/*"
     )
     mv "${bw_build_dir}/${bw_target}.zip" "${RESULT_DIR}"/
     echo "::set-output name=${bw_arch}-filename::${INPUT_RESULT_DIR}/${bw_target}.zip"
