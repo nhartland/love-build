@@ -10,7 +10,7 @@ check_environment() {
     : "${INPUT_APP_NAME:?'Error: application name unset'}"
     : "${INPUT_LOVE_VERSION:?'Error: love version unset'}"
     # Check for presence of main.lua
-    if [ ! -f "${INPUT_SOURCE_DIR}/main.lua" ]; then
+    if [ ! -f "${SOURCE_DIR}/main.lua" ]; then
         echo "Error: Cannot find main.lua in the specified source directory"
         exit 1
     fi
@@ -48,9 +48,6 @@ build_lovefile(){
             cat /love-build/module_loader.lua main.lua > new_main.lua
             mv new_main.lua main.lua
         fi
-        echo "building lovefile"
-        echo $PWD
-        ls -lah
         zip -r "application.love" ./* -x '*.git*' "${INPUT_RESULT_DIR}/*"
     )
     mv "${blf_build_dir}/application.love" "${blf_target}"
@@ -111,10 +108,6 @@ build_windows(){
         rm "${bw_target}/love.ico"
         rm "${bw_target}/changes.txt"
         rm "${bw_target}/readme.txt"
-        
-        echo "building windows"
-        echo $PWD
-        ls -lah
 
         # Setup final archive
         zip -ry "${bw_target}.zip" "${bw_target}" -x "${INPUT_RESULT_DIR}/*"
@@ -125,8 +118,6 @@ build_windows(){
 }
 
 main() {
-    
-    check_environment    
 
     echo "-- LOVE build parameters --"
     echo "App name: ${INPUT_APP_NAME}"
@@ -134,15 +125,15 @@ main() {
     echo "---------------------------"
     echo "Source directory: ${INPUT_SOURCE_DIR}"
     echo "Result directory: ${INPUT_RESULT_DIR}"
-    echo "GITHUB_WORKSPACE: ${GITHUB_WORKSPACE}"
     echo "---------------------------"
 
     # Append workspace dir to relevant paths
     SOURCE_DIR=${GITHUB_WORKSPACE}/${INPUT_SOURCE_DIR}
     RESULT_DIR=${GITHUB_WORKSPACE}/${INPUT_RESULT_DIR}
     
+    check_environment
+    
     # Make results directory if it does not exist
-    echo "current dir: ${PWD}"
     mkdir -p "${RESULT_DIR}"
     
     ### LOVE build ####################################################
