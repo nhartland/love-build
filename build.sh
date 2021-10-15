@@ -78,7 +78,7 @@ build_macos(){
 
         # Setup final archives
         mv "love.app" "${bm_target}.app"
-        zip -ry "${bm_target}.zip" "${bm_target}.app" -x "${INPUT_RESULT_DIR}/*"
+        zip -ry "${bm_target}.zip" "${bm_target}.app"
     )
     mv "${bm_build_dir}/${bm_target}.zip" "${RESULT_DIR}"
     echo "::set-output name=macos-filename::${INPUT_RESULT_DIR}/${bm_target}.zip"
@@ -110,7 +110,7 @@ build_windows(){
         rm "${bw_target}/readme.txt"
 
         # Setup final archive
-        zip -ry "${bw_target}.zip" "${bw_target}" -x "${INPUT_RESULT_DIR}/*"
+        zip -ry "${bw_target}.zip" "${bw_target}"
     )
     mv "${bw_build_dir}/${bw_target}.zip" "${RESULT_DIR}"/
     echo "::set-output name=${bw_arch}-filename::${INPUT_RESULT_DIR}/${bw_target}.zip"
