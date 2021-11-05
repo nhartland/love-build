@@ -10,7 +10,7 @@ check_environment() {
     : "${INPUT_APP_NAME:?'Error: application name unset'}"
     : "${INPUT_LOVE_VERSION:?'Error: love version unset'}"
     # Check for presence of main.lua
-    if [ ! -f "${INPUT_SOURCE_DIR}/main.lua" ]; then
+    if [ ! -f "${SOURCE_DIR}/main.lua" ]; then
         echo "Error: Cannot find main.lua in the specified source directory"
         exit 1
     fi
@@ -48,7 +48,7 @@ build_lovefile(){
             cat /love-build/module_loader.lua main.lua > new_main.lua
             mv new_main.lua main.lua
         fi
-        zip -r "application.love" ./* -x '*.git*'
+        zip -r "application.love" ./* -x '*.git*' "${INPUT_RESULT_DIR}/*"
     )
     mv "${blf_build_dir}/application.love" "${blf_target}"
     rm -rf "${blf_build_dir}"
@@ -78,7 +78,7 @@ build_macos(){
 
         # Setup final archives
         mv "love.app" "${bm_target}.app"
-        zip -ry "${bm_target}.zip" "${bm_target}.app" 
+        zip -ry "${bm_target}.zip" "${bm_target}.app"
     )
     mv "${bm_build_dir}/${bm_target}.zip" "${RESULT_DIR}"
     echo "::set-output name=macos-filename::${INPUT_RESULT_DIR}/${bm_target}.zip"
@@ -118,8 +118,6 @@ build_windows(){
 }
 
 main() {
-    
-    check_environment    
 
     echo "-- LOVE build parameters --"
     echo "App name: ${INPUT_APP_NAME}"
@@ -132,6 +130,8 @@ main() {
     # Append workspace dir to relevant paths
     SOURCE_DIR=${GITHUB_WORKSPACE}/${INPUT_SOURCE_DIR}
     RESULT_DIR=${GITHUB_WORKSPACE}/${INPUT_RESULT_DIR}
+    
+    check_environment
     
     # Make results directory if it does not exist
     mkdir -p "${RESULT_DIR}"
