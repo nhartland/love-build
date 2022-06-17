@@ -9,6 +9,7 @@ jobs:
   build-hello_world:
     runs-on: ubuntu-latest
     strategy:
+      fail-fast: false
       matrix:
         love_version: ['11.4', '11.3', '11.2', '0.10.2', '0.9.2', '0.8.0', '0.7.2']
     steps:
@@ -40,6 +41,7 @@ jobs:
   build-game_of_life:
     runs-on: ubuntu-latest
     strategy:
+      fail-fast: false
       matrix:
         love_version: ['11.4', '11.3', '11.2', '0.10.2', '0.9.2', '0.8.0', '0.7.2']
     steps:
