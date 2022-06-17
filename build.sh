@@ -87,7 +87,7 @@ build_macos(){
 build_windows(){
     bw_label=$1
     bw_arch=$2
-    bw_target="${INPUT_APP_NAME}_${bw_arch}"
+    bw_target="${INPUT_APP_NAME}_${bw_label}"
     bw_build_dir=$(mktemp -d -t love-build-XXXXXX)
     build_lovefile "${bw_build_dir}/application.love"
     (
@@ -98,7 +98,7 @@ build_windows(){
 
         # Get unpacked directory name (can vary a bit, e.g 11.4, 11.2.0) and rename
         love_dir=$(find . -type d -regex ".*/love-.*-${bw_arch}" | head -n1)
-        mv "${love_dir}" "${INPUT_APP_NAME}_${bw_arch}"
+        mv "${love_dir}" "${bw_target}"
 
         # Copy data
         cat "${bw_target}/love.exe" "application.love" > "${bw_target}/${INPUT_APP_NAME}.exe"
