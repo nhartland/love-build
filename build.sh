@@ -105,9 +105,9 @@ build_windows(){
         # Delete unneeded files
         rm "${bw_target}/love.exe"
         rm "${bw_target}/lovec.exe" || true
-        rm "${bw_target}/love.ico"
-        rm "${bw_target}/changes.txt"
-        rm "${bw_target}/readme.txt"
+        rm "${bw_target}/love.ico" || true
+        rm "${bw_target}/changes.txt" || true
+        rm "${bw_target}/readme.txt" || true
 
         # Setup final archive
         zip -ry "${bw_target}.zip" "${bw_target}"
