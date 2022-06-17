@@ -85,7 +85,8 @@ build_macos(){
 # Exports a zipped win32 application to the result directory.
 # Takes the architecure as an argument (win32/win64)
 build_windows(){
-    bw_arch=$1
+    bw_label=$1
+    bw_arch=$2
     bw_target="${INPUT_APP_NAME}_${bw_arch}"
     bw_build_dir=$(mktemp -d -t love-build-XXXXXX)
     build_lovefile "${bw_build_dir}/application.love"
@@ -112,7 +113,7 @@ build_windows(){
         zip -ry "${bw_target}.zip" "${bw_target}"
     )
     mv "${bw_build_dir}/${bw_target}.zip" "${RESULT_DIR}"/
-    echo "::set-output name=${bw_arch}-filename::${INPUT_RESULT_DIR}/${bw_target}.zip"
+    echo "::set-output name=${bw_label}-filename::${INPUT_RESULT_DIR}/${bw_target}.zip"
     rm -rf "${bw_build_dir}"
 }
 
@@ -143,8 +144,8 @@ main() {
     ### macOS/win builds ##############################################
     
     build_macos
-    build_windows win32 || build_windows win-x86
-    build_windows win64 || build_windows win-x64
+    build_windows win32 win32 || build_windows win32 win-x86
+    build_windows win64 win64 || build_windows win64 win-x64
 
 }
 
