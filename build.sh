@@ -151,6 +151,9 @@ main() {
     { 
         build_windows "win32" "win-x86" 
         build_windows "win64" "win-x64" 
+    } || 
+    {
+        exit 1 
     }
 
 }
