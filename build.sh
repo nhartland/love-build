@@ -93,10 +93,10 @@ build_windows(){
         cd "${bw_build_dir}" 
         # Download love for macos
         get_love_binaries "${bw_arch}"
-        love_dir=$(find . -type d -regex '.*/love-.*' | head -n1)
-        echo "$love_dir"
 
-        mv "love-${INPUT_LOVE_VERSION}-${bw_arch}" "${INPUT_APP_NAME}_${bw_arch}"
+        # Get unpacked directory name (can vary a bit, e.g 11.4, 11.2.0) and rename
+        love_dir=$(find . -type d -regex ".*/love-.*-${bw_arch}" | head -n1)
+        mv "${love_dir}" "${INPUT_APP_NAME}_${bw_arch}"
 
         # Copy data
         cat "${bw_target}/love.exe" "application.love" > "${bw_target}/${INPUT_APP_NAME}.exe"
