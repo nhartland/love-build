@@ -104,7 +104,7 @@ build_windows(){
         cat "${bw_target}/love.exe" "application.love" > "${bw_target}/${INPUT_APP_NAME}.exe"
         # Delete unneeded files
         rm "${bw_target}/love.exe"
-        rm "${bw_target}/lovec.exe"
+        rm "${bw_target}/lovec.exe" || true
         rm "${bw_target}/love.ico"
         rm "${bw_target}/changes.txt"
         rm "${bw_target}/readme.txt"
