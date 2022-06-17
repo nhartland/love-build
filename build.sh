@@ -63,8 +63,8 @@ build_macos(){
         # Change to build dir (subshell to preserve cwd)
         cd "${bm_build_dir}" 
         # Download love for macos
-        # Older (pre v11) labelled this as "macos-x64"
-        get_love_binaries "macos" || get_love_binaries "macos-x64"
+        # Older (pre v11) labelled this as "macosx-x64"
+        get_love_binaries "macos" || get_love_binaries "macosx-x64"
 
         # Copy Data
         cp "application.love" "love.app/Contents/Resources/"
