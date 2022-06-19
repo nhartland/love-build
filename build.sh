@@ -105,7 +105,7 @@ build_windows(){
         esac
 
         # Get unpacked directory name (can vary a bit, e.g 11.4, 11.2.0) and rename
-        love_dir=$(find . -type d -regex ".*/love-.*-win.*}" | head -n1)
+        love_dir=$(find . -type d -regex ".*/love-.*}" | head -n1)
         mv "${love_dir}" "${bw_target}"
 
         # Copy data
