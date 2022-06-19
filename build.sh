@@ -85,19 +85,27 @@ build_macos(){
 # Exports a zipped win32 application to the result directory.
 # Takes the architecure as an argument (win32/win64)
 build_windows(){
-    bw_label=$1
-    bw_arch=$2
-    bw_target="${INPUT_APP_NAME}_${bw_label}"
+    bw_arch=$1
+    bw_target="${INPUT_APP_NAME}_${bw_arch}"
     bw_build_dir=$(mktemp -d -t love-build-XXXXXX)
     build_lovefile "${bw_build_dir}/application.love"
     (
         # Change to build dir (subshell to preserve cwd)
         cd "${bw_build_dir}" 
-        # Download love for macos
-        get_love_binaries "${bw_arch}"
+
+        # Fetch the appropriate binaries
+        case $bw_arch in
+          win32)
+            get_love_binaries "win32" || get_love_binaries "win-x86"
+            ;;
+        
+          win64)
+            get_love_binaries "win64" || get_love_binaries "win-x64"
+            ;;
+        esac
 
         # Get unpacked directory name (can vary a bit, e.g 11.4, 11.2.0) and rename
-        love_dir=$(find . -type d -regex ".*/love-.*-${bw_arch}" | head -n1)
+        love_dir=$(find . -type d -regex ".*/love-.*-win.*}" | head -n1)
         mv "${love_dir}" "${bw_target}"
 
         # Copy data
@@ -113,7 +121,7 @@ build_windows(){
         zip -ry "${bw_target}.zip" "${bw_target}"
     )
     mv "${bw_build_dir}/${bw_target}.zip" "${RESULT_DIR}"/
-    echo "::set-output name=${bw_label}-filename::${INPUT_RESULT_DIR}/${bw_target}.zip"
+    echo "::set-output name=${bw_arch}-filename::${INPUT_RESULT_DIR}/${bw_target}.zip"
     rm -rf "${bw_build_dir}"
 }
 
@@ -144,17 +152,8 @@ main() {
     ### macOS/win builds ##############################################
     
     build_macos
-    { 
-        build_windows "win32" "win32";
-        build_windows "win64" "win64";
-    } || 
-    { 
-        build_windows "win32" "win-x86";
-        build_windows "win64" "win-x64"; 
-    } || 
-    {
-        exit 1;
-    }
+    build_windows "win32";
+    build_windows "win64";
 
 }
 
