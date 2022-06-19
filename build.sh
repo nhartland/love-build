@@ -145,15 +145,15 @@ main() {
     
     build_macos
     { 
-        build_windows "win32" "win32" 
-        build_windows "win64" "win64" 
+        build_windows "win32" "win32";
+        build_windows "win64" "win64";
     } || 
     { 
-        build_windows "win32" "win-x86" 
-        build_windows "win64" "win-x64" 
+        build_windows "win32" "win-x86";
+        build_windows "win64" "win-x64"; 
     } || 
     {
-        exit 1 
+        exit 1;
     }
 
 }
