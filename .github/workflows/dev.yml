@@ -8,13 +8,17 @@ jobs:
   # Build the Hello World test application
   build-hello_world:
     runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        love_version: ['11.4', '11.3', '11.2', '0.10.2', '0.9.2', '0.8.0']
     steps:
     - uses: actions/checkout@v2
     - uses: nhartland/love-build@dev
       id: love-build
       with:
         app_name: 'hello_world'
-        love_version: '11.3'
+        love_version: ${{ matrix.love_version }}
         source_dir: 'tests/hello_world'
     # Upload the resulting artifacts
     - uses: actions/upload-artifact@v1
@@ -36,13 +40,17 @@ jobs:
   # Build the Game of Life test application
   build-game_of_life:
     runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        love_version: ['11.4', '11.3', '11.2', '0.10.2', '0.9.2', '0.8.0']
     steps:
     - uses: actions/checkout@v2
     - uses: nhartland/love-build@dev
       id: love-build
       with:
         app_name: 'game_of_life'
-        love_version: '11.3'
+        love_version: ${{ matrix.love_version }}
         source_dir: 'tests/game_of_life'
         dependencies: 'tests/game_of_life/dependencies-1-1.rockspec'
     # Upload the resulting artifacts

@@ -43,7 +43,7 @@ build_lovefile(){
         if [ -n "${INPUT_DEPENDENCIES}" ]; then
             depsfile="${GITHUB_WORKSPACE}/${INPUT_DEPENDENCIES}"
             # Build the dependencies into a local luarocks tree
-            luarocks make "${depsfile}" --lua-version=5.1 --tree lb_modules 
+            luarocks make "${depsfile}" --deps-mode one --lua-version=5.1 --tree lb_modules 
             # Add custom require paths
             cat /love-build/module_loader.lua main.lua > new_main.lua
             mv new_main.lua main.lua
@@ -62,12 +62,10 @@ build_macos(){
     (
         # Change to build dir (subshell to preserve cwd)
         cd "${bm_build_dir}" 
+        
         # Download love for macos
-        if [ $(echo $INPUT_LOVE_VERSION | cut -c1-1) = 0 ]; then
-            get_love_binaries "macosx-x64"
-        else
-            get_love_binaries "macos"
-        fi
+        # Older (pre v11) labelled this as "macosx-x64" or "macosx-ub"
+        get_love_binaries "macos" || get_love_binaries "macosx-x64" || get_love_binaries "macosx-ub"
 
         # Copy Data
         cp "application.love" "love.app/Contents/Resources/"
@@ -95,19 +93,30 @@ build_windows(){
     (
         # Change to build dir (subshell to preserve cwd)
         cd "${bw_build_dir}" 
-        # Download love for macos
-        get_love_binaries "${bw_arch}"
 
-        mv "love-${INPUT_LOVE_VERSION}-${bw_arch}" "${INPUT_APP_NAME}_${bw_arch}"
+        # Fetch the appropriate binaries
+        case $bw_arch in
+          win32)
+            get_love_binaries "win32" || get_love_binaries "win-x86"
+            ;;
+        
+          win64)
+            get_love_binaries "win64" || get_love_binaries "win-x64"
+            ;;
+        esac
+
+        # Get unpacked directory name (can vary a bit, e.g 11.4, 11.2.0) and rename
+        love_dir=$(find . -type d -regex ".*/love-.*" | head -n1)
+        mv "${love_dir}" "${bw_target}"
 
         # Copy data
         cat "${bw_target}/love.exe" "application.love" > "${bw_target}/${INPUT_APP_NAME}.exe"
         # Delete unneeded files
         rm "${bw_target}/love.exe"
-        rm "${bw_target}/lovec.exe"
-        rm "${bw_target}/love.ico"
-        rm "${bw_target}/changes.txt"
-        rm "${bw_target}/readme.txt"
+        rm "${bw_target}/lovec.exe" || true
+        rm "${bw_target}/love.ico" || true
+        rm "${bw_target}/changes.txt" || true
+        rm "${bw_target}/readme.txt" || true
 
         # Setup final archive
         zip -ry "${bw_target}.zip" "${bw_target}"
@@ -144,8 +153,8 @@ main() {
     ### macOS/win builds ##############################################
     
     build_macos
-    build_windows win32
-    build_windows win64
+    build_windows "win32";
+    build_windows "win64";
 
 }
 

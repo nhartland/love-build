@@ -151,3 +151,6 @@ applications running, for example icons are not yet configurable.
 Furthermore the macOS build is unverified by Apple and therefore will need
 to be manually opened in the Security and Preferences pane at least for the
 first time it is run.
+
+Only projects based on LÖVE version 0.8.0 or greater are supported. Before
+0.8.0, , no win64 binaries were provided.
