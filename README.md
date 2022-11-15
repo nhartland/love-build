@@ -16,7 +16,7 @@ provided, the default LÖVE `Info.plist` will be used.
 
 ### Basic Configuration
 
-To build and upload a LÖVE 11.3 project with the `main.lua` at the root of your
+To build and upload a LÖVE 11.4 project with the `main.lua` at the root of your
 repository, use the following job steps:
 
 ```yaml
@@ -26,7 +26,7 @@ steps:
 - uses: nhartland/love-build@master
   with:
    app_name: 'hello_world'
-   love_version: '11.3'
+   love_version: '11.4'
 # Upload the built applications
 - uses: actions/upload-artifact@v1
   with:
@@ -42,7 +42,7 @@ steps:
 - uses: nhartland/love-build@master
   with:
     app_name: 'hello_world'
-    love_version: '11.3'
+    love_version: '11.4'
     # Use when the `main.lua` is in a subdirectory of your repository (here in `src/love`).
     source_dir: 'src/love'
     # Specifies the output location for the distributables, by default 'release'.
@@ -81,7 +81,7 @@ steps:
   id: love-build
   with:
     app_name: 'hello_world'
-    love_version: '11.3'
+    love_version: '11.4'
 - uses: actions/upload-artifact@v1
   with:
     name: macos-build
@@ -153,4 +153,4 @@ to be manually opened in the Security and Preferences pane at least for the
 first time it is run.
 
 Only projects based on LÖVE version 0.8.0 or greater are supported. Before
-0.8.0, , no win64 binaries were provided.
+0.8.0, no win64 binaries were provided.
