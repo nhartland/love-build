@@ -79,7 +79,7 @@ build_macos(){
         zip -ry "${bm_target}.zip" "${bm_target}.app"
     )
     mv "${bm_build_dir}/${bm_target}.zip" "${RESULT_DIR}"
-    echo "::set-output name=macos-filename::${INPUT_RESULT_DIR}/${bm_target}.zip"
+    echo "macos-filename=${INPUT_RESULT_DIR}/${bm_target}.zip" >> $GITHUB_OUTPUT
     rm -rf "${bm_build_dir}"
 }
 
@@ -122,7 +122,7 @@ build_windows(){
         zip -ry "${bw_target}.zip" "${bw_target}"
     )
     mv "${bw_build_dir}/${bw_target}.zip" "${RESULT_DIR}"/
-    echo "::set-output name=${bw_arch}-filename::${INPUT_RESULT_DIR}/${bw_target}.zip"
+    echo "${bw_arch}-filename=${INPUT_RESULT_DIR}/${bw_target}.zip" >> $GITHUB_OUTPUT
     rm -rf "${bw_build_dir}"
 }
 
@@ -148,7 +148,7 @@ main() {
     ### LOVE build ####################################################
     
     build_lovefile "${RESULT_DIR}/${INPUT_APP_NAME}.love"
-    echo "::set-output name=love-filename::${INPUT_RESULT_DIR}/${INPUT_APP_NAME}.love"
+    echo "love-filename=${INPUT_RESULT_DIR}/${INPUT_APP_NAME}.love" >> $GITHUB_OUTPUT
     
     ### macOS/win builds ##############################################
     
