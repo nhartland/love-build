@@ -21,7 +21,7 @@ repository, use the following job steps:
 
 ```yaml
 steps:
-- uses: actions/checkout@v2
+- uses: actions/checkout@v3
 # Build the applications
 - uses: nhartland/love-build@master
   with:
@@ -38,7 +38,7 @@ steps:
 
 ```yaml
 steps:
-- uses: actions/checkout@v2
+- uses: actions/checkout@v3
 - uses: nhartland/love-build@master
   with:
     app_name: 'hello_world'
@@ -76,7 +76,7 @@ following steps:
 
 ```yaml
 steps:
-- uses: actions/checkout@v2
+- uses: actions/checkout@v3
 - uses: nhartland/love-build@master
   id: love-build
   with:
