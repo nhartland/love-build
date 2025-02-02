@@ -1,18 +1,14 @@
 FROM debian:buster-slim
 
 # Install general dependencies
-RUN apt-get update -q -y 
-RUN apt-get install -q -y lua5.1 \
-                          liblua5.1-0-dev \
-                          build-essential \
-                          libreadline-dev \
-                          wget \
-                          zip
+RUN apt update -q -y && \
+    apt install -q -y lua5.1 liblua5.1-0-dev build-essential libreadline-dev wget zip
 
-# Fetch and build luarocks-3.3.1
-RUN wget https://luarocks.org/releases/luarocks-3.3.1.tar.gz && \
-    tar zxpf luarocks-3.3.1.tar.gz
-RUN cd luarocks-3.3.1 && \
+# Fetch and build luarocks
+ARG LUAROCKS_VERSION=3.11.1
+RUN wget https://luarocks.org/releases/luarocks-${LUAROCKS_VERSION}.tar.gz && \
+    tar zxpf luarocks-${LUAROCKS_VERSION}.tar.gz
+RUN cd luarocks-${LUAROCKS_VERSION} && \
     ./configure && \
     make && make install
 

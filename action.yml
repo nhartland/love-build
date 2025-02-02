@@ -12,7 +12,7 @@ inputs:
     required: true
   love_version:
     description: 'Version of LÖVE to be used in building the application'
-    default: '11.3'
+    default: '11.5'
     required: true
   dependencies:
     description: 'Path to dependencies rockspec relative to GitHub workspace'
