@@ -69,6 +69,8 @@ the filenames relative to the working directory.
     description: 'Filename of built win64 application'
   macos-filename: 
     description: 'Filename of built macos application'
+  linux-filename: 
+    description: 'Filename of built linux application'
 ```
 
 The applications can therefore be built and individually uploaded with the
@@ -98,6 +100,10 @@ steps:
   with:
     name: love-build
     path: ${{ steps.love-build.outputs.love-filename }}
+- uses: actions/upload-artifact@v4
+  with:
+    name: linux-build
+    path: ${{ steps.love-build.outputs.linux-filename }}
 ```
 
 ### LuaRocks dependencies

@@ -126,6 +126,35 @@ build_windows(){
     rm -rf "${bw_build_dir}"
 }
 
+build_linux(){
+    bw_arch=$1
+    bw_target="${INPUT_APP_NAME}_${bw_arch}"
+    bw_build_dir=$(mktemp -d -t love-build-XXXXXX)
+    build_lovefile "${bw_build_dir}/application.love"
+    (
+        # Change to build dir (subshell to preserve cwd)
+        cd "${bw_build_dir}" 
+
+        # Fetch the appropriate binaries
+        get_love_binaries "x86_64.AppImage"
+
+        # Get unpacked directory name (can vary a bit, e.g 11.4, 11.2.0) and rename
+        love_dir=$(find . -type d -regex ".*/love-.*" | head -n1)
+        mv "${love_dir}" "${bw_target}"
+
+        # Copy data
+        cat "${bw_target}/love-*.AppImage" "application.love" > "${bw_target}/${INPUT_APP_NAME}.AppImage"
+        chmod +x "${bw_target}/${INPUT_APP_NAME}.AppImage"
+
+        # Setup final archive
+        zip -ry "${bw_target}.zip" "${bw_target}"
+    )
+    mv "${bw_build_dir}/${bw_target}.zip" "${RESULT_DIR}"/
+    echo "${bw_arch}-filename=${INPUT_RESULT_DIR}/${bw_target}.zip" >> $GITHUB_OUTPUT
+    rm -rf "${bw_build_dir}"
+}
+
+
 main() {
 
     echo "-- LOVE build parameters --"
@@ -155,6 +184,7 @@ main() {
     build_macos
     build_windows "win32";
     build_windows "win64";
+    build_linux
 
 }
 

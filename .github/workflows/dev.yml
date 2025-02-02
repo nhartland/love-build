@@ -37,7 +37,11 @@ jobs:
       with:
         name: hw_love-build
         path: ${{ steps.love-build.outputs.love-filename }}
-  # Build the Game of Life test application
+    - uses: actions/upload-artifact@v4
+      with:
+        name: hw_linux-build
+        path: ${{ steps.love-build.outputs.linux-filename }}
+    # Build the Game of Life test application
   build-game_of_life:
     runs-on: ubuntu-latest
     strategy:
@@ -70,3 +74,8 @@ jobs:
       with:
         name: gol_love-build
         path: ${{ steps.love-build.outputs.love-filename }}
+    - uses: actions/upload-artifact@v4
+      with:
+        name: gol_linux-build
+        path: ${{ steps.love-build.outputs.linux-filename }}
+  
