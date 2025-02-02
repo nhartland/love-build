@@ -136,8 +136,9 @@ build_linux(){
         cd "${bw_build_dir}" 
 
         # Fetch the appropriate binaries
-        get_love_binaries "x86_64.AppImage"
-
+        # get_love_binaries "x86_64.AppImage"
+        wget "https://github.com/love2d/love/releases/download/${INPUT_LOVE_VERSION}/love-${INPUT_LOVE_VERSION}-x86_64.AppImage" -O love-${INPUT_LOVE_VERSION}-x86_64.AppImage
+        
         # Get unpacked directory name (can vary a bit, e.g 11.4, 11.2.0) and rename
         love_dir=$(find . -type d -regex ".*/love-.*" | head -n1)
         mv "${love_dir}" "${bw_target}"
