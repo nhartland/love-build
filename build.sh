@@ -136,7 +136,6 @@ build_linux(){
         cd "${bw_build_dir}" 
 
         # Fetch the appropriate binaries
-        # get_love_binaries "x86_64.AppImage"
         mkdir -p "${bw_target}"
         wget "https://github.com/love2d/love/releases/download/${INPUT_LOVE_VERSION}/love-${INPUT_LOVE_VERSION}-${bw_arch}.AppImage" -O ${bw_target}/love.AppImage
 
@@ -183,7 +182,7 @@ main() {
     build_macos
     build_windows "win32";
     build_windows "win64";
-    build_linux "x86_64"
+    build_linux "x86_64";
 
 }
 
