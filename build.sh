@@ -137,15 +137,12 @@ build_linux(){
 
         # Fetch the appropriate binaries
         # get_love_binaries "x86_64.AppImage"
-        wget "https://github.com/love2d/love/releases/download/${INPUT_LOVE_VERSION}/love-${INPUT_LOVE_VERSION}-x86_64.AppImage" -O love-x86_64.AppImage
-        
-        # Get unpacked directory name (can vary a bit, e.g 11.4, 11.2.0) and rename
-        #love_dir=$(find . -type d -regex ".*/love-.*" | head -n1)
-        #mv "${love_dir}" "${bw_target}"
-        mv love-x86_64.AppImage "${bw_target}"
-        
+        mkdir -p "${bw_target}"
+        wget "https://github.com/love2d/love/releases/download/${INPUT_LOVE_VERSION}/love-${INPUT_LOVE_VERSION}-${bw_arch}.AppImage" -O ${bw_target}/love.AppImage
+
         # Copy data
-        cat "${bw_target}/love-x86_64.AppImage" "application.love" > "${bw_target}/${INPUT_APP_NAME}.AppImage"
+        cat "${bw_target}/love.AppImage" "application.love" > "${bw_target}/${INPUT_APP_NAME}.AppImage"
+        rm "${bw_target}/love.AppImage"
         chmod +x "${bw_target}/${INPUT_APP_NAME}.AppImage"
 
         # Setup final archive
@@ -186,7 +183,7 @@ main() {
     build_macos
     build_windows "win32";
     build_windows "win64";
-    build_linux
+    build_linux "x86_64"
 
 }
 
