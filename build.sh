@@ -141,9 +141,9 @@ build_linux(){
         wget "https://github.com/love2d/love/releases/download/${INPUT_LOVE_VERSION}/love-${INPUT_LOVE_VERSION}-${bw_arch}.AppImage" -O ${bw_target}/love.AppImage
 
         # Copy data
-        cat "${bw_target}/love.AppImage" "application.love" > "${bw_target}/${INPUT_APP_NAME}.AppImage"
+        cat "${bw_target}/love.AppImage" "application.love" > "${bw_target}/${INPUT_APP_NAME}-${bw_arch}.AppImage"
         rm "${bw_target}/love.AppImage"
-        chmod +x "${bw_target}/${INPUT_APP_NAME}.AppImage"
+        chmod +x "${bw_target}/${INPUT_APP_NAME}-${bw_arch}.AppImage"
 
         # Setup final archive
         zip -ry "${bw_target}.zip" "${bw_target}"
