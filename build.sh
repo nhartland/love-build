@@ -128,7 +128,7 @@ build_windows(){
 
 build_linux(){
     bw_arch=$1
-    bw_target="${INPUT_APP_NAME}_${bw_arch}"
+    bw_target="${INPUT_APP_NAME}_linux_${bw_arch}"
     bw_build_dir=$(mktemp -d -t love-build-XXXXXX)
     build_lovefile "${bw_build_dir}/application.love"
     (
@@ -149,7 +149,7 @@ build_linux(){
         zip -ry "${bw_target}.zip" "${bw_target}"
     )
     mv "${bw_build_dir}/${bw_target}.zip" "${RESULT_DIR}"/
-    echo "${bw_arch}-filename=${INPUT_RESULT_DIR}/${bw_target}.zip" >> $GITHUB_OUTPUT
+    echo "linux_${bw_arch}-filename=${INPUT_RESULT_DIR}/${bw_target}.zip" >> $GITHUB_OUTPUT
     rm -rf "${bw_build_dir}"
 }
 

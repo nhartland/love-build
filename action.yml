@@ -34,7 +34,7 @@ outputs:
     description: 'Path (relative to GitHub workspace) of built win64 application'
   macos-filename: 
     description: 'Path (relative to GitHub workspace) of built macos application'
-  linux-filename: 
+  linux_x86_64-filename: 
     description: 'Path (relative to GitHub workspace) of built linux application'
 runs:
   using: 'docker'
