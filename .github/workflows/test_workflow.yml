@@ -13,9 +13,7 @@ jobs:
         love_version: ['11.5', '11.4', '11.3', '11.2', '0.10.2', '0.9.2', '0.8.0']
     steps:
     - uses: actions/checkout@v4
-    - name: Extract branch name
-      run: echo "BRANCH_NAME=${GITHUB_REF#refs/heads/}" >> $GITHUB_ENV
-    - uses: nhartland/love-build@${{ env.BRANCH_NAME }}
+    - uses: nhartland/love-build@${{ env.GITHUB_REF_NAME }}
       id: love-build
       with:
         app_name: 'hello_world'
@@ -52,9 +50,7 @@ jobs:
         love_version: ['11.5', '11.4', '11.3', '11.2', '0.10.2', '0.9.2', '0.8.0']
     steps:
     - uses: actions/checkout@v4
-    - name: Extract branch name
-      run: echo "BRANCH_NAME=${GITHUB_REF#refs/heads/}" >> $GITHUB_ENV
-    - uses: nhartland/love-build@${{ env.BRANCH_NAME }}
+    - uses: nhartland/love-build@${{ env.GITHUB_REF_NAME }}
       id: love-build
       with:
         app_name: 'game_of_life'
