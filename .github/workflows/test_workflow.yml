@@ -1,9 +1,8 @@
-# Identical to main testing workflow, but points only
-# at dev branch
-name: Testing[master]
+# Workflow builds two test applications, one with and one without luarocks
+name: Testing
 on:
   push:
-    branches: [ master ]
+    branches: [ master, dev ]
 jobs:
   # Build the Hello World test application
   build-hello_world:
@@ -14,7 +13,9 @@ jobs:
         love_version: ['11.5', '11.4', '11.3', '11.2', '0.10.2', '0.9.2', '0.8.0']
     steps:
     - uses: actions/checkout@v4
-    - uses: nhartland/love-build@master
+    - name: Extract branch name
+      run: echo "BRANCH_NAME=${GITHUB_REF#refs/heads/}" >> $GITHUB_ENV
+    - uses: nhartland/love-build@${{ env.BRANCH_NAME }}
       id: love-build
       with:
         app_name: 'hello_world'
@@ -51,7 +52,9 @@ jobs:
         love_version: ['11.5', '11.4', '11.3', '11.2', '0.10.2', '0.9.2', '0.8.0']
     steps:
     - uses: actions/checkout@v4
-    - uses: nhartland/love-build@master
+    - name: Extract branch name
+      run: echo "BRANCH_NAME=${GITHUB_REF#refs/heads/}" >> $GITHUB_ENV
+    - uses: nhartland/love-build@${{ env.BRANCH_NAME }}
       id: love-build
       with:
         app_name: 'game_of_life'
