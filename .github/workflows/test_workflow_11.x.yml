@@ -1,0 +1,84 @@
+# Workflow builds two test applications, one with and one without luarocks
+# This workflow tests builds targeting LOVE 11.X, including the linux binaries
+name: Testing 11.X
+on:
+  pull_request:
+    branches: [ master ]
+  push:
+    branches: [ master, dev ]
+jobs:
+  # Build the Hello World test application
+  build-hello_world:
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        love_version: ['11.5', '11.4', '11.3', '11.2']
+    steps:
+    - uses: actions/checkout@v4
+    - uses: ./ # User current branch
+      id: love-build
+      with:
+        app_name: 'hello_world'
+        love_version: ${{ matrix.love_version }}
+        source_dir: 'tests/hello_world'
+    # Upload the resulting artifacts
+    - uses: actions/upload-artifact@v4
+      with:
+        name: hw_macos-build-${{ matrix.love_version}}
+        path: ${{ steps.love-build.outputs.macos-filename }}
+    - uses: actions/upload-artifact@v4
+      with:
+        name: hw_win32-build-${{ matrix.love_version}}
+        path: ${{ steps.love-build.outputs.win32-filename }}
+    - uses: actions/upload-artifact@v4
+      with:
+        name: hw_win64-build-${{ matrix.love_version}}
+        path: ${{ steps.love-build.outputs.win64-filename }}
+    - uses: actions/upload-artifact@v4
+      with:
+        name: hw_love-build-${{ matrix.love_version}}
+        path: ${{ steps.love-build.outputs.love-filename }}
+    - uses: actions/upload-artifact@v4
+      with:
+        name: hw_linux_x86_64-build-${{ matrix.love_version}}
+        path: ${{ steps.love-build.outputs.linux_x86_64-filename }}
+  
+  # Build the Game of Life test application
+  build-game_of_life:
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        love_version: ['11.5', '11.4', '11.3', '11.2']
+    steps:
+    - uses: actions/checkout@v4
+    - uses: ./ # Use current branch
+      id: love-build
+      with:
+        app_name: 'game_of_life'
+        love_version: ${{ matrix.love_version }}
+        source_dir: 'tests/game_of_life'
+        dependencies: 'tests/game_of_life/dependencies-1-1.rockspec'
+    # Upload the resulting artifacts
+    - uses: actions/upload-artifact@v4
+      with:
+        name: gol_macos-build-${{ matrix.love_version}}
+        path: ${{ steps.love-build.outputs.macos-filename }}
+    - uses: actions/upload-artifact@v4
+      with:
+        name: gol_win32-build-${{ matrix.love_version}}
+        path: ${{ steps.love-build.outputs.win32-filename }}
+    - uses: actions/upload-artifact@v4
+      with:
+        name: gol_win64-build-${{ matrix.love_version}}
+        path: ${{ steps.love-build.outputs.win64-filename }}
+    - uses: actions/upload-artifact@v4
+      with:
+        name: gol_love-build-${{ matrix.love_version}}
+        path: ${{ steps.love-build.outputs.love-filename }}
+    - uses: actions/upload-artifact@v4
+      with:
+        name: gol_linux_x86_64-build-${{ matrix.love_version}}
+        path: ${{ steps.love-build.outputs.linux_x86_64-filename }}
+  
