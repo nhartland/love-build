@@ -21,14 +21,14 @@ repository, use the following job steps:
 
 ```yaml
 steps:
-- uses: actions/checkout@v3
+- uses: actions/checkout@v4
 # Build the applications
 - uses: nhartland/love-build@master
   with:
    app_name: 'hello_world'
-   love_version: '11.4'
+   love_version: '11.5'
 # Upload the built applications
-- uses: actions/upload-artifact@v1
+- uses: actions/upload-artifact@v4
   with:
     name: built-applications
     path: 'release'
@@ -42,7 +42,7 @@ steps:
 - uses: nhartland/love-build@master
   with:
     app_name: 'hello_world'
-    love_version: '11.4'
+    love_version: '11.5'
     # Use when the `main.lua` is in a subdirectory of your repository (here in `src/love`).
     source_dir: 'src/love'
     # Specifies the output location for the distributables, by default 'release'.
@@ -69,6 +69,8 @@ the filenames relative to the working directory.
     description: 'Filename of built win64 application'
   macos-filename: 
     description: 'Filename of built macos application'
+  linux_x86_64-filename: 
+    description: 'Filename of built linux application'
 ```
 
 The applications can therefore be built and individually uploaded with the
@@ -81,23 +83,27 @@ steps:
   id: love-build
   with:
     app_name: 'hello_world'
-    love_version: '11.4'
-- uses: actions/upload-artifact@v1
+    love_version: '11.5'
+- uses: actions/upload-artifact@v4
   with:
     name: macos-build
     path: ${{ steps.love-build.outputs.macos-filename }}
-- uses: actions/upload-artifact@v1
+- uses: actions/upload-artifact@v4
   with:
     name: win32-build
     path: ${{ steps.love-build.outputs.win32-filename }}
-- uses: actions/upload-artifact@v1
+- uses: actions/upload-artifact@v4
   with:
     name: win64-build
     path: ${{ steps.love-build.outputs.win64-filename }}
-- uses: actions/upload-artifact@v1
+- uses: actions/upload-artifact@v4
   with:
     name: love-build
     path: ${{ steps.love-build.outputs.love-filename }}
+- uses: actions/upload-artifact@v4
+  with:
+    name: linux_x86_64-build
+    path: ${{ steps.love-build.outputs.linux_x86_64-filename }}
 ```
 
 ### LuaRocks dependencies
