@@ -1,6 +1,8 @@
 # Workflow builds two test applications, one with and one without luarocks
 name: Testing
 on:
+  pull_request:
+    branches: [ master ]
   push:
     branches: [ master, dev ]
 jobs:
