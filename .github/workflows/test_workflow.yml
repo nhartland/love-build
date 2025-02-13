@@ -45,7 +45,7 @@ jobs:
 
   # Build the Hello World test application for older love_versions
   # This job leaves out the linux AppImage upload which is not available
-  build-hello_world:
+  build-hello_world-0.x:
     runs-on: ubuntu-latest
     strategy:
       fail-fast: false
@@ -118,7 +118,7 @@ jobs:
   
   # Build the Game of Life test application for older love versions
   # This job leaves out the linux AppImage upload which is not available
-  build-game_of_life:
+  build-game_of_life-0.x:
     runs-on: ubuntu-latest
     strategy:
       fail-fast: false
