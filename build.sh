@@ -126,6 +126,8 @@ build_windows(){
     rm -rf "${bw_build_dir}"
 }
 
+# Builds a linux AppImage
+# Only available for love2d >= 11.0
 build_linux(){
     bw_arch=$1
     bw_target="${INPUT_APP_NAME}_linux_${bw_arch}"
@@ -182,7 +184,12 @@ main() {
     build_macos
     build_windows "win32";
     build_windows "win64";
-    build_linux "x86_64";
+
+    if version_ge "${INPUT_LOVE_VERSION}" "11.0"; then
+        build_linux "x86_64"
+    else
+        echo "Skipping Linux build: LOVE version is less than 11.0"
+    fi
 
 }
 
