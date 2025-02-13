@@ -6,6 +6,11 @@ if [ "${GITHUB_REPOSITORY}" = "nhartland/love-build" ]; then
     set -x
 fi
 
+# Function to compare version numbers
+version_ge() {
+    [ "$(printf '%s\n' "$1" "$2" | sort -V | head -n1)" = "$2" ]
+}
+
 check_environment() {
     : "${INPUT_APP_NAME:?'Error: application name unset'}"
     : "${INPUT_LOVE_VERSION:?'Error: love version unset'}"
