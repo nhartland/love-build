@@ -16,7 +16,7 @@ provided, the default LÖVE `Info.plist` will be used.
 
 ### Basic Configuration
 
-To build and upload a LÖVE 11.4 project with the `main.lua` at the root of your
+To build and upload a LÖVE 11.5 project with the `main.lua` at the root of your
 repository, use the following job steps:
 
 ```yaml
@@ -69,6 +69,7 @@ the filenames relative to the working directory.
     description: 'Filename of built win64 application'
   macos-filename: 
     description: 'Filename of built macos application'
+# Only provided for LÖVE >= 11.0 
   linux_x86_64-filename: 
     description: 'Filename of built linux application'
 ```
@@ -100,6 +101,7 @@ steps:
   with:
     name: love-build
     path: ${{ steps.love-build.outputs.love-filename }}
+# Only provided for LÖVE >= 11.0 
 - uses: actions/upload-artifact@v4
   with:
     name: linux_x86_64-build
@@ -152,7 +154,7 @@ are bundled.
 ### Limitations
 
 This action so far only performs the minimal build required for getting
-applications running, for example icons are not yet configurable.
+applications running, for example icons are not configurable.
 
 Furthermore the macOS build is unverified by Apple and therefore will need
 to be manually opened in the Security and Preferences pane at least for the
@@ -160,3 +162,6 @@ first time it is run.
 
 Only projects based on LÖVE version 0.8.0 or greater are supported. Before
 0.8.0, no win64 binaries were provided.
+
+For the Linux build, only projects based on LÖVE version 11.0 or greater are
+supported. Before 11.0 no AppImages are provided
