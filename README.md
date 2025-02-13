@@ -1,6 +1,6 @@
 # love-build
 
-![Tests](https://github.com/nhartland/love-build/workflows/Testing%5Bmain%5D/badge.svg)
+![Tests](https://github.com/nhartland/love-build/workflows/Testing/badge.svg)
 
 GitHub Action for building a [LÖVE](https://love2d.org/) Project. 
 
