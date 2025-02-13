@@ -21,7 +21,7 @@ repository, use the following job steps:
 steps:
 - uses: actions/checkout@v4
 # Build the applications
-- uses: nhartland/love-build@main
+- uses: nhartland/love-build@v1-beta5
   with:
    app_name: 'hello_world'
    love_version: '11.5'
@@ -37,7 +37,7 @@ steps:
 ```yaml
 steps:
 - uses: actions/checkout@v3
-- uses: nhartland/love-build@main
+- uses: nhartland/love-build@v1-beta5
   with:
     app_name: 'hello_world'
     love_version: '11.5'
@@ -78,7 +78,7 @@ following steps:
 ```yaml
 steps:
 - uses: actions/checkout@v3
-- uses: nhartland/love-build@main
+- uses: nhartland/love-build@v1-beta5
   id: love-build
   with:
     app_name: 'hello_world'

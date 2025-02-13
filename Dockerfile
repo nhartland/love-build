@@ -17,7 +17,3 @@ RUN cd luarocks-${LUAROCKS_VERSION} && \
 COPY build.sh /love-build/build.sh
 COPY module_loader.lua /love-build/module_loader.lua
 ENTRYPOINT ["/love-build/build.sh"]
-
-# docker build . -t love-build --no-cache
-# docker run -it -v./tests:/tmp/tests -w /love-build --entrypoint /bin/bash love-build
-# INPUT_APP_NAME=hello_word INPUT_LOVE_VERSION=11.5 INPUT_SOURCE_DIR=/tmp/tests/hello_world INPUT_RESULT_DIR=/tmp/result GITHUB_OUTPUT=/tmp/out /love-build/build.sh
