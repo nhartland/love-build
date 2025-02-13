@@ -24,23 +24,23 @@ jobs:
     # Upload the resulting artifacts
     - uses: actions/upload-artifact@v4
       with:
-        name: hw_macos-build
+        name: hw_macos-build-${{ matrix.lover_version}}
         path: ${{ steps.love-build.outputs.macos-filename }}
     - uses: actions/upload-artifact@v4
       with:
-        name: hw_win32-build
+        name: hw_win32-build-${{ matrix.lover_version}}
         path: ${{ steps.love-build.outputs.win32-filename }}
     - uses: actions/upload-artifact@v4
       with:
-        name: hw_win64-build
+        name: hw_win64-build-${{ matrix.lover_version}}
         path: ${{ steps.love-build.outputs.win64-filename }}
     - uses: actions/upload-artifact@v4
       with:
-        name: hw_love-build
+        name: hw_love-build-${{ matrix.lover_version}}
         path: ${{ steps.love-build.outputs.love-filename }}
     - uses: actions/upload-artifact@v4
       with:
-        name: hw_linux_x86_64-build
+        name: hw_linux_x86_64-build-${{ matrix.lover_version}}
         path: ${{ steps.love-build.outputs.linux_x86_64-filename }}
   
   # Build the Game of Life test application
@@ -62,22 +62,22 @@ jobs:
     # Upload the resulting artifacts
     - uses: actions/upload-artifact@v4
       with:
-        name: gol_macos-build
+        name: gol_macos-build-${{ matrix.lover_version}}
         path: ${{ steps.love-build.outputs.macos-filename }}
     - uses: actions/upload-artifact@v4
       with:
-        name: gol_win32-build
+        name: gol_win32-build-${{ matrix.lover_version}}
         path: ${{ steps.love-build.outputs.win32-filename }}
     - uses: actions/upload-artifact@v4
       with:
-        name: gol_win64-build
+        name: gol_win64-build-${{ matrix.lover_version}}
         path: ${{ steps.love-build.outputs.win64-filename }}
     - uses: actions/upload-artifact@v4
       with:
-        name: gol_love-build
+        name: gol_love-build-${{ matrix.lover_version}}
         path: ${{ steps.love-build.outputs.love-filename }}
     - uses: actions/upload-artifact@v4
       with:
-        name: gol_linux_x86_64-build
+        name: gol_linux_x86_64-build-${{ matrix.lover_version}}
         path: ${{ steps.love-build.outputs.linux_x86_64-filename }}
   
