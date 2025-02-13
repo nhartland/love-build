@@ -1,6 +1,6 @@
 # love-build
 
-![Tests](https://github.com/nhartland/love-build/workflows/Testing%5Bmaster%5D/badge.svg)
+![Tests](https://github.com/nhartland/love-build/workflows/Testing%5Bmain%5D/badge.svg)
 
 GitHub Action for building a [LÖVE](https://love2d.org/) Project. 
 
@@ -23,7 +23,7 @@ repository, use the following job steps:
 steps:
 - uses: actions/checkout@v4
 # Build the applications
-- uses: nhartland/love-build@master
+- uses: nhartland/love-build@main
   with:
    app_name: 'hello_world'
    love_version: '11.5'
@@ -39,7 +39,7 @@ steps:
 ```yaml
 steps:
 - uses: actions/checkout@v3
-- uses: nhartland/love-build@master
+- uses: nhartland/love-build@main
   with:
     app_name: 'hello_world'
     love_version: '11.5'
@@ -80,7 +80,7 @@ following steps:
 ```yaml
 steps:
 - uses: actions/checkout@v3
-- uses: nhartland/love-build@master
+- uses: nhartland/love-build@main
   id: love-build
   with:
     app_name: 'hello_world'
@@ -149,7 +149,7 @@ dependencies, and a Game of Life simulation showing how LuaRocks dependencies
 are bundled. 
 
 - [Test Applications](tests)
-- [Test Workflow](.github/workflows/master.yml)
+- [Test Workflow](.github/workflows/test_workflow.yml)
 
 ### Limitations
 

@@ -2,9 +2,9 @@
 name: Testing
 on:
   pull_request:
-    branches: [ master ]
+    branches: [ main ]
   push:
-    branches: [ master, dev ]
+    branches: [ main, dev ]
 jobs:
   # Build the Hello World test application
   build-hello_world:
