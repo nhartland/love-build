@@ -6,7 +6,7 @@ source = {
 -- List your required dependencies here in the standard
 -- rockspec format
 dependencies = {
-   "forma >= 0.2"
+   "forma ~= 1.0"
 }
 build = {
    type = "none"
