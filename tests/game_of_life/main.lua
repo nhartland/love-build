@@ -1,5 +1,4 @@
 local primitives = require('forma.primitives')
-local subpattern = require('forma.subpattern')
 local automata   = require('forma.automata')
 local neighbourhood = require('forma.neighbourhood')
 
@@ -8,7 +7,7 @@ local pixels = 128
 -- 128*128 square
 local domain = primitives.square(pixels,pixels)
 -- Set half the initial possible cells to active
-local sample = subpattern.random(domain, math.floor(domain:size()/2))
+local sample = domain:random(math.floor(domain:size()/2))
 -- GoL rule
 local moore  = automata.rule(neighbourhood.moore(), "B3/S23")
 local ruleset = {moore}
