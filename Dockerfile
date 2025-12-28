@@ -1,4 +1,4 @@
-FROM debian:buster-slim
+FROM debian:stable-slim
 
 # Install general dependencies
 RUN apt update -q -y && \
