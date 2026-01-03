@@ -26,7 +26,7 @@ steps:
    app_name: 'hello_world'
    love_version: '11.5'
 # Upload the built applications
-- uses: actions/upload-artifact@v4
+- uses: actions/upload-artifact@v6
   with:
     name: built-applications
     path: 'release'
@@ -83,24 +83,24 @@ steps:
   with:
     app_name: 'hello_world'
     love_version: '11.5'
-- uses: actions/upload-artifact@v4
+- uses: actions/upload-artifact@v6
   with:
     name: macos-build
     path: ${{ steps.love-build.outputs.macos-filename }}
-- uses: actions/upload-artifact@v4
+- uses: actions/upload-artifact@v6
   with:
     name: win32-build
     path: ${{ steps.love-build.outputs.win32-filename }}
-- uses: actions/upload-artifact@v4
+- uses: actions/upload-artifact@v6
   with:
     name: win64-build
     path: ${{ steps.love-build.outputs.win64-filename }}
-- uses: actions/upload-artifact@v4
+- uses: actions/upload-artifact@v6
   with:
     name: love-build
     path: ${{ steps.love-build.outputs.love-filename }}
 # Only provided for LÖVE >= 11.0 
-- uses: actions/upload-artifact@v4
+- uses: actions/upload-artifact@v6
   with:
     name: linux_x86_64-build
     path: ${{ steps.love-build.outputs.linux_x86_64-filename }}
