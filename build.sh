@@ -67,7 +67,7 @@ build_lovefile(){
 build_macos(){
     bm_target="${INPUT_APP_NAME}_macos"
     bm_build_dir=$(mktemp -d -t love-build-XXXXXX)
-    build_lovefile "${bm_build_dir}/application.love"
+    cp "${LOVEFILE}" "${bm_build_dir}/application.love"
     (
         # Change to build dir (subshell to preserve cwd)
         cd "${bm_build_dir}" 
@@ -98,7 +98,7 @@ build_windows(){
     bw_arch=$1
     bw_target="${INPUT_APP_NAME}_${bw_arch}"
     bw_build_dir=$(mktemp -d -t love-build-XXXXXX)
-    build_lovefile "${bw_build_dir}/application.love"
+    cp "${LOVEFILE}" "${bw_build_dir}/application.love"
     (
         # Change to build dir (subshell to preserve cwd)
         cd "${bw_build_dir}" 
@@ -141,7 +141,7 @@ build_linux(){
     bw_arch=$1
     bw_target="${INPUT_APP_NAME}_linux_${bw_arch}"
     bw_build_dir=$(mktemp -d -t love-build-XXXXXX)
-    build_lovefile "${bw_build_dir}/application.love"
+    cp "${LOVEFILE}" "${bw_build_dir}/application.love"
     (
         # Change to build dir (subshell to preserve cwd)
         cd "${bw_build_dir}" 
@@ -185,7 +185,9 @@ main() {
     
     ### LOVE build ####################################################
     
-    build_lovefile "${RESULT_DIR}/${INPUT_APP_NAME}.love"
+    LOVEFILE="${RESULT_DIR}/${INPUT_APP_NAME}.love"
+    readonly LOVEFILE
+    build_lovefile "${LOVEFILE}"
     echo "love-filename=${INPUT_RESULT_DIR}/${INPUT_APP_NAME}.love" >> "$GITHUB_OUTPUT"
     
     ### macOS/win builds ##############################################
