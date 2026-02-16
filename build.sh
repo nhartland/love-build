@@ -2,7 +2,7 @@
 set -e
 
 # Debug mode
-if [ "${GITHUB_REPOSITORY}" = "nhartland/love-build" ]; then
+if [ "${INPUT_DEBUG}" = "true" ]; then
     set -x
 fi
 
@@ -74,7 +74,7 @@ build_macos(){
         
         # Download love for macos
         # Older (pre v11) labelled this as "macosx-x64" or "macosx-ub"
-        get_love_binaries "macos" || get_love_binaries "macosx-x64" || get_love_binaries "macosx-ub"
+        get_love_binaries "macos" 2>/dev/null || get_love_binaries "macosx-x64" 2>/dev/null || get_love_binaries "macosx-ub" || { echo "Error: Failed to download LÖVE macOS binaries for version ${INPUT_LOVE_VERSION}"; exit 1; }
 
         # Copy Data
         cp "application.love" "love.app/Contents/Resources/"
@@ -106,11 +106,11 @@ build_windows(){
         # Fetch the appropriate binaries
         case $bw_arch in
           win32)
-            get_love_binaries "win32" || get_love_binaries "win-x86"
+            get_love_binaries "win32" 2>/dev/null || get_love_binaries "win-x86" || { echo "Error: Failed to download LÖVE win32 binaries for version ${INPUT_LOVE_VERSION}"; exit 1; }
             ;;
         
           win64)
-            get_love_binaries "win64" || get_love_binaries "win-x64"
+            get_love_binaries "win64" 2>/dev/null || get_love_binaries "win-x64" || { echo "Error: Failed to download LÖVE win64 binaries for version ${INPUT_LOVE_VERSION}"; exit 1; }
             ;;
         esac
 

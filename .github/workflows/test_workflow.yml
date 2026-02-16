@@ -21,6 +21,7 @@ jobs:
         app_name: 'hello_world'
         love_version: ${{ matrix.love_version }}
         source_dir: 'tests/hello_world'
+        debug: 'true'
     # Upload the resulting artifacts
     - uses: actions/upload-artifact@v6
       with:
@@ -59,6 +60,7 @@ jobs:
         app_name: 'hello_world'
         love_version: ${{ matrix.love_version }}
         source_dir: 'tests/hello_world'
+        debug: 'true'
     # Upload the resulting artifacts
     - uses: actions/upload-artifact@v6
       with:
@@ -92,6 +94,7 @@ jobs:
         app_name: 'game_of_life'
         love_version: ${{ matrix.love_version }}
         source_dir: 'tests/game_of_life'
+        debug: 'true'
         dependencies: 'tests/game_of_life/dependencies-1-1.rockspec'
     # Upload the resulting artifacts
     - uses: actions/upload-artifact@v6
@@ -132,6 +135,7 @@ jobs:
         app_name: 'game_of_life'
         love_version: ${{ matrix.love_version }}
         source_dir: 'tests/game_of_life'
+        debug: 'true'
         dependencies: 'tests/game_of_life/dependencies-1-1.rockspec'
     # Upload the resulting artifacts
     - uses: actions/upload-artifact@v6
