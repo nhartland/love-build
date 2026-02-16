@@ -47,6 +47,10 @@ build_lovefile(){
         # If the specified dependency file exists, use it 
         if [ -n "${INPUT_DEPENDENCIES}" ]; then
             depsfile="${GITHUB_WORKSPACE}/${INPUT_DEPENDENCIES}"
+            if [ ! -f "${depsfile}" ]; then
+                echo "Error: Cannot find dependencies rockspec at '${depsfile}'"
+                exit 1
+            fi
             # Build the dependencies into a local luarocks tree
             luarocks make "${depsfile}" --deps-mode one --lua-version=5.1 --tree lb_modules 
             # Add custom require paths
@@ -84,7 +88,7 @@ build_macos(){
         zip -ry "${bm_target}.zip" "${bm_target}.app"
     )
     mv "${bm_build_dir}/${bm_target}.zip" "${RESULT_DIR}"
-    echo "macos-filename=${INPUT_RESULT_DIR}/${bm_target}.zip" >> $GITHUB_OUTPUT
+    echo "macos-filename=${INPUT_RESULT_DIR}/${bm_target}.zip" >> "$GITHUB_OUTPUT"
     rm -rf "${bm_build_dir}"
 }
 
@@ -127,7 +131,7 @@ build_windows(){
         zip -ry "${bw_target}.zip" "${bw_target}"
     )
     mv "${bw_build_dir}/${bw_target}.zip" "${RESULT_DIR}"/
-    echo "${bw_arch}-filename=${INPUT_RESULT_DIR}/${bw_target}.zip" >> $GITHUB_OUTPUT
+    echo "${bw_arch}-filename=${INPUT_RESULT_DIR}/${bw_target}.zip" >> "$GITHUB_OUTPUT"
     rm -rf "${bw_build_dir}"
 }
 
@@ -155,7 +159,7 @@ build_linux(){
         zip -ry "${bw_target}.zip" "${bw_target}"
     )
     mv "${bw_build_dir}/${bw_target}.zip" "${RESULT_DIR}"/
-    echo "linux_${bw_arch}-filename=${INPUT_RESULT_DIR}/${bw_target}.zip" >> $GITHUB_OUTPUT
+    echo "linux_${bw_arch}-filename=${INPUT_RESULT_DIR}/${bw_target}.zip" >> "$GITHUB_OUTPUT"
     rm -rf "${bw_build_dir}"
 }
 
@@ -182,7 +186,7 @@ main() {
     ### LOVE build ####################################################
     
     build_lovefile "${RESULT_DIR}/${INPUT_APP_NAME}.love"
-    echo "love-filename=${INPUT_RESULT_DIR}/${INPUT_APP_NAME}.love" >> $GITHUB_OUTPUT
+    echo "love-filename=${INPUT_RESULT_DIR}/${INPUT_APP_NAME}.love" >> "$GITHUB_OUTPUT"
     
     ### macOS/win builds ##############################################
     

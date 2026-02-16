@@ -55,9 +55,9 @@ To see the full options specification please refer to the
 
 ### Produced artifacts
 
-The built applications are located in the `results_dir` path, by default the
-root of your repository. This action returns four output variables specifying
-the filenames relative to the working directory.
+The built applications are located in the `result_dir` path, by default
+`release`. This action returns four output variables specifying the filenames
+relative to the working directory.
 
 ```yaml
 love-filename:
