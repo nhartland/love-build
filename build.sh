@@ -2,7 +2,7 @@
 set -e
 
 # Debug mode
-if [ "${GITHUB_REPOSITORY}" = "nhartland/love-build" ]; then
+if [ "${INPUT_DEBUG}" = "true" ]; then
     set -x
 fi
 
@@ -47,6 +47,10 @@ build_lovefile(){
         # If the specified dependency file exists, use it 
         if [ -n "${INPUT_DEPENDENCIES}" ]; then
             depsfile="${GITHUB_WORKSPACE}/${INPUT_DEPENDENCIES}"
+            if [ ! -f "${depsfile}" ]; then
+                echo "Error: Cannot find dependencies rockspec at '${depsfile}'"
+                exit 1
+            fi
             # Build the dependencies into a local luarocks tree
             luarocks make "${depsfile}" --deps-mode one --lua-version=5.1 --tree lb_modules 
             # Add custom require paths
@@ -63,14 +67,14 @@ build_lovefile(){
 build_macos(){
     bm_target="${INPUT_APP_NAME}_macos"
     bm_build_dir=$(mktemp -d -t love-build-XXXXXX)
-    build_lovefile "${bm_build_dir}/application.love"
+    cp "${LOVEFILE}" "${bm_build_dir}/application.love"
     (
         # Change to build dir (subshell to preserve cwd)
         cd "${bm_build_dir}" 
         
         # Download love for macos
         # Older (pre v11) labelled this as "macosx-x64" or "macosx-ub"
-        get_love_binaries "macos" || get_love_binaries "macosx-x64" || get_love_binaries "macosx-ub"
+        get_love_binaries "macos" 2>/dev/null || get_love_binaries "macosx-x64" 2>/dev/null || get_love_binaries "macosx-ub" || { echo "Error: Failed to download LÖVE macOS binaries for version ${INPUT_LOVE_VERSION}"; exit 1; }
 
         # Copy Data
         cp "application.love" "love.app/Contents/Resources/"
@@ -84,7 +88,7 @@ build_macos(){
         zip -ry "${bm_target}.zip" "${bm_target}.app"
     )
     mv "${bm_build_dir}/${bm_target}.zip" "${RESULT_DIR}"
-    echo "macos-filename=${INPUT_RESULT_DIR}/${bm_target}.zip" >> $GITHUB_OUTPUT
+    echo "macos-filename=${INPUT_RESULT_DIR}/${bm_target}.zip" >> "$GITHUB_OUTPUT"
     rm -rf "${bm_build_dir}"
 }
 
@@ -94,7 +98,7 @@ build_windows(){
     bw_arch=$1
     bw_target="${INPUT_APP_NAME}_${bw_arch}"
     bw_build_dir=$(mktemp -d -t love-build-XXXXXX)
-    build_lovefile "${bw_build_dir}/application.love"
+    cp "${LOVEFILE}" "${bw_build_dir}/application.love"
     (
         # Change to build dir (subshell to preserve cwd)
         cd "${bw_build_dir}" 
@@ -102,11 +106,11 @@ build_windows(){
         # Fetch the appropriate binaries
         case $bw_arch in
           win32)
-            get_love_binaries "win32" || get_love_binaries "win-x86"
+            get_love_binaries "win32" 2>/dev/null || get_love_binaries "win-x86" || { echo "Error: Failed to download LÖVE win32 binaries for version ${INPUT_LOVE_VERSION}"; exit 1; }
             ;;
         
           win64)
-            get_love_binaries "win64" || get_love_binaries "win-x64"
+            get_love_binaries "win64" 2>/dev/null || get_love_binaries "win-x64" || { echo "Error: Failed to download LÖVE win64 binaries for version ${INPUT_LOVE_VERSION}"; exit 1; }
             ;;
         esac
 
@@ -127,7 +131,7 @@ build_windows(){
         zip -ry "${bw_target}.zip" "${bw_target}"
     )
     mv "${bw_build_dir}/${bw_target}.zip" "${RESULT_DIR}"/
-    echo "${bw_arch}-filename=${INPUT_RESULT_DIR}/${bw_target}.zip" >> $GITHUB_OUTPUT
+    echo "${bw_arch}-filename=${INPUT_RESULT_DIR}/${bw_target}.zip" >> "$GITHUB_OUTPUT"
     rm -rf "${bw_build_dir}"
 }
 
@@ -137,7 +141,7 @@ build_linux(){
     bw_arch=$1
     bw_target="${INPUT_APP_NAME}_linux_${bw_arch}"
     bw_build_dir=$(mktemp -d -t love-build-XXXXXX)
-    build_lovefile "${bw_build_dir}/application.love"
+    cp "${LOVEFILE}" "${bw_build_dir}/application.love"
     (
         # Change to build dir (subshell to preserve cwd)
         cd "${bw_build_dir}" 
@@ -155,7 +159,7 @@ build_linux(){
         zip -ry "${bw_target}.zip" "${bw_target}"
     )
     mv "${bw_build_dir}/${bw_target}.zip" "${RESULT_DIR}"/
-    echo "linux_${bw_arch}-filename=${INPUT_RESULT_DIR}/${bw_target}.zip" >> $GITHUB_OUTPUT
+    echo "linux_${bw_arch}-filename=${INPUT_RESULT_DIR}/${bw_target}.zip" >> "$GITHUB_OUTPUT"
     rm -rf "${bw_build_dir}"
 }
 
@@ -181,8 +185,10 @@ main() {
     
     ### LOVE build ####################################################
     
-    build_lovefile "${RESULT_DIR}/${INPUT_APP_NAME}.love"
-    echo "love-filename=${INPUT_RESULT_DIR}/${INPUT_APP_NAME}.love" >> $GITHUB_OUTPUT
+    LOVEFILE="${RESULT_DIR}/${INPUT_APP_NAME}.love"
+    readonly LOVEFILE
+    build_lovefile "${LOVEFILE}"
+    echo "love-filename=${INPUT_RESULT_DIR}/${INPUT_APP_NAME}.love" >> "$GITHUB_OUTPUT"
     
     ### macOS/win builds ##############################################
     

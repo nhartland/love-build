@@ -25,6 +25,10 @@ inputs:
     description: 'Directory in the GitHub workspace where the built distributables should be located'
     default: "release"
     required: true
+  debug:
+    description: 'Enable debug output (set -x)'
+    default: "false"
+    required: false
 outputs:
   love-filename: 
     description: 'Path (relative to GitHub workspace) of built love file'

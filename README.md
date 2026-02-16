@@ -1,12 +1,12 @@
 # love-build
 
-GitHub Action for building a [LÖVE](https://love2d.org/) Project. 
+GitHub Action for building a [LÖVE](https://love2d.org/) Project.
 
 This action produces a LÖVE file, along with macOS and Windows executable
 packages for a LÖVE project. For projects making use of
 [luarocks](https://luarocks.org/) packages, this build action supports the
 bundling of dependencies via a user-defined
-[rockspec](https://github.com/luarocks/luarocks/wiki/Rockspec-format). 
+[rockspec](https://github.com/luarocks/luarocks/wiki/Rockspec-format).
 
 For macOS application configuration, you can supply an `Info.plist` file in the
 source directory which will be copied into the built application. If not
@@ -19,91 +19,92 @@ repository, use the following job steps:
 
 ```yaml
 steps:
-- uses: actions/checkout@v6
-# Build the applications
-- uses: nhartland/love-build@v1
-  with:
-   app_name: 'hello_world'
-   love_version: '11.5'
-# Upload the built applications
-- uses: actions/upload-artifact@v6
-  with:
-    name: built-applications
-    path: 'release'
+  - uses: actions/checkout@v6
+  # Build the applications
+  - uses: nhartland/love-build@v1
+    with:
+      app_name: "hello_world"
+      love_version: "11.5"
+  # Upload the built applications
+  - uses: actions/upload-artifact@v6
+    with:
+      name: built-applications
+      path: "release"
 ```
 
 ### Extended configuration
 
 ```yaml
 steps:
-- uses: actions/checkout@v6
-- uses: nhartland/love-build@v1
-  with:
-    app_name: 'hello_world'
-    love_version: '11.5'
-    # Use when the `main.lua` is in a subdirectory of your repository (here in `src/love`).
-    source_dir: 'src/love'
-    # Specifies the output location for the distributables, by default 'release'.
-    result_dir: 'nondefault_result_dir'
-    # Sets up luarocks dependencies according to provided rockspec
-    # Use the path relative to your repository root.
-    dependencies: 'dependencies-1-1.rockspec'
+  - uses: actions/checkout@v6
+  - uses: nhartland/love-build@v1
+    with:
+      app_name: "hello_world"
+      love_version: "11.5"
+      # Use when the `main.lua` is in a subdirectory of your repository (here in `src/love`).
+      source_dir: "src/love"
+      # Specifies the output location for the distributables, by default 'release'.
+      result_dir: "nondefault_result_dir"
+      # Sets up luarocks dependencies according to provided rockspec
+      # Use the path relative to your repository root.
+      dependencies: "dependencies-1-1.rockspec"
 ```
 
-To see the full options specification please refer to the [action.yml](action.yml).
+To see the full options specification please refer to the
+[action.yml](action.yml).
 
 ### Produced artifacts
 
-The built applications are located in the `results_dir` path, by default the
-root of your repository. This action returns four output variables specifying
-the filenames relative to the working directory.
+The built applications are located in the `result_dir` path, by default
+`release`. This action returns four output variables specifying the filenames
+relative to the working directory.
 
 ```yaml
-  love-filename: 
-    description: 'Filename of built love file'
-  win32-filename: 
-    description: 'Filename of built win32 application'
-  win64-filename: 
-    description: 'Filename of built win64 application'
-  macos-filename: 
-    description: 'Filename of built macos application'
-# Only provided for LÖVE >= 11.0 
-  linux_x86_64-filename: 
-    description: 'Filename of built linux application'
+love-filename:
+  description: "Filename of built love file"
+win32-filename:
+  description: "Filename of built win32 application"
+win64-filename:
+  description: "Filename of built win64 application"
+macos-filename:
+  description: "Filename of built macos application"
+# Only provided for LÖVE >= 11.0
+linux_x86_64-filename:
+  description: "Filename of built linux application"
 ```
 
 The applications can therefore be built and individually uploaded with the
-following steps: 
+following steps:
 
 ```yaml
 steps:
-- uses: actions/checkout@v6
-- uses: nhartland/love-build@v1
-  id: love-build
-  with:
-    app_name: 'hello_world'
-    love_version: '11.5'
-- uses: actions/upload-artifact@v6
-  with:
-    name: macos-build
-    path: ${{ steps.love-build.outputs.macos-filename }}
-- uses: actions/upload-artifact@v6
-  with:
-    name: win32-build
-    path: ${{ steps.love-build.outputs.win32-filename }}
-- uses: actions/upload-artifact@v6
-  with:
-    name: win64-build
-    path: ${{ steps.love-build.outputs.win64-filename }}
-- uses: actions/upload-artifact@v6
-  with:
-    name: love-build
-    path: ${{ steps.love-build.outputs.love-filename }}
-# Only provided for LÖVE >= 11.0 
-- uses: actions/upload-artifact@v6
-  with:
-    name: linux_x86_64-build
-    path: ${{ steps.love-build.outputs.linux_x86_64-filename }}
+  - uses: actions/checkout@v6
+  - uses: nhartland/love-build@v1
+    id: love-build
+    with:
+      app_name: "hello_world"
+      love_version: "11.5"
+  - uses: actions/upload-artifact@v6
+    with:
+      name: macos-build
+      path: ${{ steps.love-build.outputs.macos-filename }}
+  - uses: actions/upload-artifact@v6
+    with:
+      name: win32-build
+      path: ${{ steps.love-build.outputs.win32-filename }}
+  - uses: actions/upload-artifact@v6
+    with:
+      name: win64-build
+      path: ${{ steps.love-build.outputs.win64-filename }}
+  - uses: actions/upload-artifact@v6
+    with:
+      name: love-build
+      path: ${{ steps.love-build.outputs.love-filename }}
+  # Only provided for LÖVE >= 11.0
+  - uses: actions/upload-artifact@v6
+    with:
+      name: linux_x86_64-build
+      path: ${{ steps.love-build.outputs.linux_x86_64-filename }}
 ```
 
 ### LuaRocks dependencies
@@ -112,14 +113,14 @@ steps:
 correctly build native libraries.
 
 You can specify the dependencies of your LÖVE application using a rockspec.
-These dependencies will be bundled in with the packaged LÖVE executables
-and the required include paths added to the LÖVE path by means of prepending
+These dependencies will be bundled in with the packaged LÖVE executables and the
+required include paths added to the LÖVE path by means of prepending
 [module_loader.lua](module_loader.lua) to your `main.lua`. The LuaRocks
-integration depends only on the LuaRocks command line utilities and
-not on the LuaRocks API.
+integration depends only on the LuaRocks command line utilities and not on the
+LuaRocks API.
 
-The rockspec doesn't need to specify anything about your application other
-than the dependencies. For example:
+The rockspec doesn't need to specify anything about your application other than
+the dependencies. For example:
 
 ```lua
 -- dependencies-1-1.rockspec
@@ -144,7 +145,7 @@ build = {
 
 In this directory are two test cases, a basic "Hello World" with no
 dependencies, and a Game of Life simulation showing how LuaRocks dependencies
-are bundled. 
+are bundled.
 
 - [Test Applications](tests)
 - [Test Workflow](.github/workflows/test_workflow.yml)
@@ -154,9 +155,9 @@ are bundled.
 This action so far only performs the minimal build required for getting
 applications running, for example icons are not configurable.
 
-Furthermore the macOS build is unverified by Apple and therefore will need
-to be manually opened in the Security and Preferences pane at least for the
-first time it is run.
+Furthermore the macOS build is unverified by Apple and therefore will need to be
+manually opened in the Security and Preferences pane at least for the first time
+it is run.
 
 Only projects based on LÖVE version 0.8.0 or greater are supported. Before
 0.8.0, no win64 binaries were provided.
