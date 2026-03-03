@@ -23,23 +23,23 @@ jobs:
         source_dir: 'tests/hello_world'
         debug: 'true'
     # Upload the resulting artifacts
-    - uses: actions/upload-artifact@v6
+    - uses: actions/upload-artifact@v7
       with:
         name: hw_macos-build-${{ matrix.love_version}}
         path: ${{ steps.love-build.outputs.macos-filename }}
-    - uses: actions/upload-artifact@v6
+    - uses: actions/upload-artifact@v7
       with:
         name: hw_win32-build-${{ matrix.love_version}}
         path: ${{ steps.love-build.outputs.win32-filename }}
-    - uses: actions/upload-artifact@v6
+    - uses: actions/upload-artifact@v7
       with:
         name: hw_win64-build-${{ matrix.love_version}}
         path: ${{ steps.love-build.outputs.win64-filename }}
-    - uses: actions/upload-artifact@v6
+    - uses: actions/upload-artifact@v7
       with:
         name: hw_love-build-${{ matrix.love_version}}
         path: ${{ steps.love-build.outputs.love-filename }}
-    - uses: actions/upload-artifact@v6
+    - uses: actions/upload-artifact@v7
       with:
         name: hw_linux_x86_64-build-${{ matrix.love_version}}
         path: ${{ steps.love-build.outputs.linux_x86_64-filename }}
@@ -62,19 +62,19 @@ jobs:
         source_dir: 'tests/hello_world'
         debug: 'true'
     # Upload the resulting artifacts
-    - uses: actions/upload-artifact@v6
+    - uses: actions/upload-artifact@v7
       with:
         name: hw_macos-build-${{ matrix.love_version}}
         path: ${{ steps.love-build.outputs.macos-filename }}
-    - uses: actions/upload-artifact@v6
+    - uses: actions/upload-artifact@v7
       with:
         name: hw_win32-build-${{ matrix.love_version}}
         path: ${{ steps.love-build.outputs.win32-filename }}
-    - uses: actions/upload-artifact@v6
+    - uses: actions/upload-artifact@v7
       with:
         name: hw_win64-build-${{ matrix.love_version}}
         path: ${{ steps.love-build.outputs.win64-filename }}
-    - uses: actions/upload-artifact@v6
+    - uses: actions/upload-artifact@v7
       with:
         name: hw_love-build-${{ matrix.love_version}}
         path: ${{ steps.love-build.outputs.love-filename }}
@@ -97,23 +97,23 @@ jobs:
         debug: 'true'
         dependencies: 'tests/game_of_life/dependencies-1-1.rockspec'
     # Upload the resulting artifacts
-    - uses: actions/upload-artifact@v6
+    - uses: actions/upload-artifact@v7
       with:
         name: gol_macos-build-${{ matrix.love_version}}
         path: ${{ steps.love-build.outputs.macos-filename }}
-    - uses: actions/upload-artifact@v6
+    - uses: actions/upload-artifact@v7
       with:
         name: gol_win32-build-${{ matrix.love_version}}
         path: ${{ steps.love-build.outputs.win32-filename }}
-    - uses: actions/upload-artifact@v6
+    - uses: actions/upload-artifact@v7
       with:
         name: gol_win64-build-${{ matrix.love_version}}
         path: ${{ steps.love-build.outputs.win64-filename }}
-    - uses: actions/upload-artifact@v6
+    - uses: actions/upload-artifact@v7
       with:
         name: gol_love-build-${{ matrix.love_version}}
         path: ${{ steps.love-build.outputs.love-filename }}
-    - uses: actions/upload-artifact@v6
+    - uses: actions/upload-artifact@v7
       with:
         name: gol_linux_x86_64-build-${{ matrix.love_version}}
         path: ${{ steps.love-build.outputs.linux_x86_64-filename }}
@@ -138,19 +138,19 @@ jobs:
         debug: 'true'
         dependencies: 'tests/game_of_life/dependencies-1-1.rockspec'
     # Upload the resulting artifacts
-    - uses: actions/upload-artifact@v6
+    - uses: actions/upload-artifact@v7
       with:
         name: gol_macos-build-${{ matrix.love_version}}
         path: ${{ steps.love-build.outputs.macos-filename }}
-    - uses: actions/upload-artifact@v6
+    - uses: actions/upload-artifact@v7
       with:
         name: gol_win32-build-${{ matrix.love_version}}
         path: ${{ steps.love-build.outputs.win32-filename }}
-    - uses: actions/upload-artifact@v6
+    - uses: actions/upload-artifact@v7
       with:
         name: gol_win64-build-${{ matrix.love_version}}
         path: ${{ steps.love-build.outputs.win64-filename }}
-    - uses: actions/upload-artifact@v6
+    - uses: actions/upload-artifact@v7
       with:
         name: gol_love-build-${{ matrix.love_version}}
         path: ${{ steps.love-build.outputs.love-filename }}
